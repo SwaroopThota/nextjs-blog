@@ -1,0 +1,29 @@
+---
+lang: "java"
+title: "Rain Water Trapping Problem"
+slug: "rain-water-trapping-problem"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+static long trappingWater(int arr[], int n) { 
+        //we maintain left array to store max height of block on the left side of each index
+        int[] left = new int[n];
+        //we maintain right array to store max height of block on the right side of each index
+        int[] right = new int[n];
+        left[0] = arr[0];
+        for(int i=1;i<n;i++){
+            left[i] = Math.max(left[i-1],arr[i]);
+        }
+        right[n-1] = arr[n-1];
+        for(int i=n-2;i>=0;i--){
+            right[i] = Math.max(right[i+1],arr[i]);
+        }
+        long ans = 0;
+        for(int i=1;i<n-1;i++){
+           //here we are doing ( min(left,right) height - current height ) to get max amount of water that can be stored at that index
+            ans += Math.min(left[i],right[i]) - arr[i];
+        }
+        return ans;
+}
+```

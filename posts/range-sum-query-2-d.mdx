@@ -1,0 +1,37 @@
+---
+lang: "java"
+title: "Range Sum Query 2D"
+slug: "range-sum-query-2-d"
+author: "Swaroop"
+date: "Friday, 16 September 2022"
+---
+```java
+class NumMatrix {
+    int[][] myMatrix;
+    int n, m;
+    public NumMatrix(int[][] matrix) {
+        n = matrix.length;
+        m = matrix[0].length;
+        // myMatrix[i][j] stores sum of all the elems of the submatrix with i, j as right bottom corner
+        myMatrix = new int[n][m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                // myMatrix[i][j] = matrix[i][j] + myMatrix[i-1][j] + myMatrix[i][j-1] - myMatrix[i-1][j-1];
+                myMatrix[i][j] = matrix[i][j];
+                if(i > 0) myMatrix[i][j] += myMatrix[i-1][j];
+                if(j > 0) myMatrix[i][j] += myMatrix[i][j-1];
+                if(i > 0 && j > 0) myMatrix[i][j] -= myMatrix[i-1][j-1];
+            }
+        }
+    }
+    
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        // return myMatrix[row2][col2] - myMatrix[row1-1][col2] - myMatrix[row2][col1-1] + myMatrix[row1-1][col1-1];
+        int ans = myMatrix[row2][col2];
+        if(row1 > 0) ans -= myMatrix[row1-1][col2];
+        if(col1 > 0) ans -= myMatrix[row2][col1-1];
+        if(row1 > 0 && col1 > 0) ans += myMatrix[row1-1][col1-1];
+        return ans;
+    }
+}
+```

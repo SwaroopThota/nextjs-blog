@@ -1,0 +1,40 @@
+---
+lang: "java"
+title: "Cyclic sort"
+slug: "cyclic-sort"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//We use cyclic sort if we are given array to sort which contains values from range 1 to N
+// Here we compare each element with its index i.e index = value -1
+
+// index               0 1 2 3 4 5 6 7
+// arr values        1 2 3 4 5 6 7 8
+
+void cyclicSort(int[] arr){
+       int i = 0;
+       while(i < arr.length){
+             if(arr[i] == i + 1)  // if we have the correct value at the given index, so we move to next index
+                    i++;
+             else            //else we swap the current value with its correct position
+                    swap(arr, i, arr[i]-1);
+        }
+}
+void swap(int[] arr, int first, int second){
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+}
+
+// if the range is from [0,N], then
+// index               0 1 2 3 4 5 6 7
+// arr values        0 1 2 3 4 5 6 7
+//here we compare arr[i] with i i.e arr[i] = i
+
+// if we have duplicates in the arr, we use arr[i] !=arr[correct] correct =arr[i] -1;
+
+problems: 
+https://leetcode.com/problems/missing-number/
+ https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
+```

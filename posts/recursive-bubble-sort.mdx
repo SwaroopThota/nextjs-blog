@@ -1,0 +1,42 @@
+---
+lang: "java"
+title: "Recursive Bubble sort"
+slug: "recursive-bubble-sort"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//bubbleSort(arr,0,1,false);
+
+void bubbleSort(int[] arr, int i,int j,int n,boolean swapped) {
+        if(i == n-1) return;                       // i reaches end(n-1th elem) we return to the main
+        if(j == n-i){                                  // j reaches end of unsorted part of arr (n-i to n will be sorted) so we increment i and make j point to the start of arr
+            if(!swapped) return;                // if first n comparsions results in no swapping => the array is sorted so we return from here
+            i++;
+            j=1;
+        }
+        if(arr[j] < arr[j-1]){
+            int temp = arr[j];
+            arr[j] = arr[j-1];
+            arr[j-1] = temp;
+            swapped = true;                     // => swaping took place
+        }
+        j++;                                            // increment j
+        bubbleSort(arr, i, j, n,swapped); // recursive call
+    }
+
+//another implementation
+void bubbleSort(int[] arr, int n, boolean swapped) {
+        if(n==1) return;
+        for(int j = 1; j<n; j++){
+          if(arr[j] < arr[j-1]){
+            int temp = arr[j];
+            arr[j] = arr[j-1];
+            arr[j-1] = temp;
+            swapped = true;
+         }
+        }
+        if(!swapped) return;
+        bubbleSort(arr , n-1);
+    }
+```

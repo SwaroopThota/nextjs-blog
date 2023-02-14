@@ -1,0 +1,30 @@
+---
+lang: "java"
+title: "Binary Tree Maximum Path Sum"
+slug: "binary-tree-maximum-path-sum"
+author: "Swaroop"
+date: "Monday, 4 April 2022"
+---
+```java
+class Solution {
+    int max = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        helper(root);
+        return max;
+    }
+    //*max sum path may not include root node so we have to check for every node
+    int helper(TreeNode root){
+        if(root == null) return 0;
+        // maxing with 0 bcz we may not include that path sum if it is -ve.
+        int l = Math.max(0,helper(root.left));
+        int r = Math.max(0,helper(root.right));
+       // curr goes to higher recursion or nodes as a path sum
+       // which includes max sum b/w left and right subtree
+        int curr = root.val + Math.max(l,r);
+       // max gets updated for every node
+       // max = maxPathSum(left) + root + maxPathSum(right)
+        max = Math.max(max,root.val + l + r);
+        return curr;
+    }
+}
+```

@@ -1,0 +1,71 @@
+---
+lang: "java"
+title: "Inversion Count or Smaller elements problem"
+slug: "inversion-count-or-smaller-elements-problem"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+/*
+Inversion Count: For an array, inversion count indicates how far (or close) the array is from being sorted.
+If array is already sorted then the inversion count is 0.
+If an array is sorted in the reverse order then the inversion count is the maximum. 
+Formally, two elements a[i] and a[j] form an inversion if a[i] > a[j] and i < j.
+or
+For a given index i, the inversion count is the no. elements which are less than arr[i] and on the right side of i. 
+*/
+
+//problem links - https://www.hackerrank.com/contests/smart-interviews/challenges/si-smaller-elements/problem, 
+//https://practice.geeksforgeeks.org/problems/inversion-of-array-1587115620/1
+
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    static long cnt;
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        StringBuilder ans = new StringBuilder("");
+        while(t-- > 0){
+            int n = in.nextInt();
+            int[] arr = new int[n];
+            for(int i=0;i<n;i++){
+                arr[i] = in.nextInt();
+            }
+            cnt = 0;
+            mergeSort(arr,0,n-1);
+            ans.append(cnt+"\n");
+        }
+        System.out.print(ans);
+    }
+    
+    public static void mergeSort(int[] arr,int lo,int hi){
+        if(lo==hi) return;
+        int mid = (lo+hi)/2;
+        mergeSort(arr,lo,mid);
+        mergeSort(arr,mid+1,hi);
+        merge(arr,lo,hi);
+    }
+    public static void merge(int[] arr,int lo,int hi){
+        int[] temp = new int[hi-lo+1];
+        int mid = (lo+hi)/2, p1 = lo, p2 = mid+1, k=0;
+        while(p1<=mid && p2<=hi){
+            if(arr[p1]<=arr[p2]) temp[k++] = arr[p1++];
+            else{ 
+                //here if one of the elem of rightside half of arr < elem of left half then we increment the count by 
+                //no. of elem on the rightside including that elem(since the both halves are sorted).
+                // [3 4 6 8] [ 1 2 7] => 3>2 so incr cnt by 1(3 itself) + no. of elem on the right side(4,6,8 which are also > 3) = 1 + 3 =4
+                cnt += mid-p1+1;
+                temp[k++] = arr[p2++];
+            }
+        }
+        while(p1<=mid) temp[k++] = arr[p1++];
+        while(p2<=hi) temp[k++] = arr[p2++];
+        k=lo;
+        for(int i : temp){
+            arr[k++] = i;
+        }
+    }
+}
+```

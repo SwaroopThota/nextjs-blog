@@ -1,0 +1,41 @@
+---
+lang: "java"
+title: "Maximal String using Recursion and Backtracking"
+slug: "maximal-string-using-recursion-and-backtracking"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//finding lexographically maximum string premution which is formed by making atmost k swaps
+
+public class Solution {
+    public String solve(String A, int B) {
+        return helper(A.toCharArray(),B);
+    }
+    public String helper(char[] arr, int k){
+        if(k==0){
+            return new String(arr);
+        }
+        int n = arr.length;
+        String max = new String(arr);
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] > arr[i]) {
+                    swap(arr,j,i);
+                    String ans = helper(arr,k-1);
+                    if(max.compareTo(ans) <0){
+                        max = ans;
+                    }
+                    swap(arr,i,j);
+                }
+            }
+        }
+        return max;
+    }
+    public void swap(char[] arr,int i,int j){
+        char temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+```

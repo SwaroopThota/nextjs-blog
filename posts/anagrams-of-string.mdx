@@ -1,0 +1,44 @@
+---
+lang: "java"
+title: "Anagrams of String"
+slug: "anagrams-of-string"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//printing all the possible anagrams of string
+public void anagrams(String str, int start, int end) 
+    { 
+        if (start == end) 
+            System.out.println(str); 
+        else { 
+            for (int i = start; i <= end; i++) { 
+                str = swap(str, start, i); 
+                anagm(str, start + 1, end); 
+                str = swap(str, start, i); 
+            } 
+        } 
+    } 
+    public String swap(String a, int i, int j) 
+    { 
+        char temp; 
+        char[] charArray = a.toCharArray(); 
+        temp = charArray[i]; 
+        charArray[i] = charArray[j]; 
+        charArray[j] = temp; 
+        return String.valueOf(charArray); 
+    }
+
+// check if string b is an anagram of a or vice-versa
+ public boolean check(String a,String b){
+          if(a.length() != b.length()) return false;
+          a = sort(a);
+          b = sort(b);
+          return a.equals(b);
+}
+public String sort(String s){
+        char[] ch = s.toCharArray();
+        Arrays.sort(ch);
+        return String.valueOf(ch);
+}
+```

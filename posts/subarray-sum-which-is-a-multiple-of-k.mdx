@@ -1,0 +1,25 @@
+---
+lang: "java"
+title: "Subarray Sum which is a multiple of k"
+slug: "subarray-sum-which-is-a-multiple-of-k"
+author: "Swaroop"
+date: "Sunday, 24 July 2022"
+---
+```java
+// https://leetcode.com/problems/continuous-subarray-sum/
+// Given an integer array nums and an integer k, return true if nums have a continuous subarray of size at least two whose elements sum up to a multiple of k
+//We iterate through the input array exactly once, keeping track of the running sum mod k of the elements in the process. If we find that a running sum%mod value at index j has been previously seen before in some earlier index i in the array, then we know that the sub-array (i,j] contains the desired sum.
+
+public boolean checkSubarraySum(int[] nums, int k) {
+    Map<Integer, Integer> map = new HashMap<>(){{put(0,-1);}};;
+    int runningSum = 0;
+    for (int i=0;i<nums.length;i++) {
+        runningSum += nums[i];
+        runningSum %= k; 
+        int prevIdx = map.getOrDefaullt(runningSum, -2);
+        if(prevIdx == -2) map.put(runningSum, i);  // we didn't find runningSum value previously
+        else if(i - prevIdx > 1) return true; // we found a subarray[prevIdx, i] divisible by or multiple of k and checking if subarray length is atleast 2
+    }
+    return false;
+}
+```

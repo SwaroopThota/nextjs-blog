@@ -1,0 +1,42 @@
+---
+lang: "java"
+title: "Compute nCr - DP Solution"
+slug: "compute-n-cr-dp-solution"
+author: "Swaroop"
+date: "Wednesday, 18 May 2022"
+---
+```java
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    static long mod = (long)(1e9+7);
+    static long[][] dp;
+    public static void main(String[] args) throws Exception{
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
+        int T=Integer.parseInt(br.readLine());
+        dp = new long[2001][2001];
+        for(long[] arr : dp) Arrays.fill(arr, -1);
+        // nCr = no. of ways of selecting r items from n items
+        for(int i=0;i<=2000;i++){
+            // ways to selecting i items from 0 items = 0
+             dp[0][i] = 0;
+            // ways to selecting 0 items from i items = 1
+             dp[i][0] = 1;
+        }
+        while(T-->0){
+            String[] inp = br.readLine().split(" ");
+            int n=Integer.parseInt(inp[0]);
+            int r=Integer.parseInt(inp[1]);
+            bw.write(helper(n,r)+"\n");
+        }
+        bw.flush();
+    }
+    public static long helper(int n, int r){
+        if(dp[n][r] != -1) return dp[n][r];
+        // here we are     selecting         leaving the cur item
+        return dp[n][r] = (helper(n-1,r-1) + helper(n-1,r))%mod;
+    }
+}
+```

@@ -1,0 +1,54 @@
+---
+lang: "java"
+title: "Range Sum of Sorted Subarray Sums"
+slug: "range-sum-of-sorted-subarray-sums"
+author: "Swaroop"
+date: "Sunday, 18 September 2022"
+---
+```java
+// prefix sum
+class Solution {
+    public int rangeSum(int[] nums, int n, int left, int right) {
+        int N = (n*(n+1))/2, k = 1, mod = (int)(1e9+7);
+        long[] arr = new long[N+1];
+        for(int i=0;i<n;i++){
+            long sum = 0;
+            for(int j=i;j<n;j++){
+                sum += nums[j];
+                arr[k++] = sum;
+            }
+        }
+        Arrays.sort(arr);
+        for(int i=1;i<=N;i++) arr[i] = (arr[i-1] + arr[i])%mod;
+        // System.out.println(Arrays.toString(arr));
+        return (int)(arr[right] - arr[left-1]);
+    }
+}
+
+// using priority queue
+class Solution {
+    static class Pair{
+        long sum;
+        int idx;
+        Pair(long sum, int idx){
+            this.sum = sum;
+            this.idx = idx;
+        }
+    }
+    public int rangeSum(int[] nums, int n, int left, int right) {
+        PriorityQueue<Pair> pq = new PriorityQueue<>((o1, o2) -> Long.compare(o1.sum, o2.sum));
+        for(int i=0;i<n;i++) pq.add(new Pair(nums[i], i));
+        right--; left--;
+        long ans = 0, mod = (long)(1e9+7);
+        for(int i=0;i<=right;i++){
+            Pair p = pq.remove();
+            if(i >= left) ans = (ans + p.sum)%mod;
+            if(p.idx < n-1){
+                p.sum = (p.sum + nums[++p.idx])%mod;
+                pq.add(p);
+            }
+        }
+        return (int)ans;
+    }
+}
+```

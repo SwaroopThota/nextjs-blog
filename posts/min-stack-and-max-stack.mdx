@@ -1,0 +1,85 @@
+---
+lang: "java"
+title: "Min Stack and Max Stack"
+slug: "min-stack-and-max-stack"
+author: "Swaroop"
+date: "Wednesday, 23 March 2022"
+---
+```java
+// https://leetcode.com/problems/min-stack/submissions/
+
+class MinStack {
+    Stack<Integer> stack;
+    Stack<Integer> minStack;
+    public MinStack() {
+        stack = new Stack<>();
+        minStack = new Stack<>();
+    }
+    
+    public void push(int val) {
+        stack.push(val);
+        if(minStack.isEmpty()){
+            minStack.push(val);
+            return;
+        }
+        if(minStack.peek().compareTo(val) >= 0){
+            minStack.push(val);
+        }
+    }
+    
+    public void pop() {
+        if(stack.peek().equals(minStack.peek())){
+            stack.pop();
+            minStack.pop();
+        }else{
+            stack.pop();            
+        }
+    }
+    
+    public int top() {
+        return stack.peek();
+    }
+    
+    public int getMin() {
+        return minStack.peek();
+    }
+}
+
+// maxstack
+class MaxStack {
+    Stack<Integer> stack;
+    Stack<Integer> maxStack;
+    public MinStack() {
+        stack = new Stack<>();
+        maxStack= new Stack<>();
+    }
+    
+    public void push(int val) {
+        stack.push(val);
+        if(maxStack.isEmpty()){
+            maxStack.push(val);
+            return;
+        }
+        if(maxStack.peek().compareTo(val) <= 0){
+            maxStack.push(val);
+        }
+    }
+    
+    public void pop() {
+        if(stack.peek().equals(maxStack.peek())){
+            stack.pop();
+            maxStack.pop();
+        }else{
+            stack.pop();            
+        }
+    }
+    
+    public int top() {
+        return stack.peek();
+    }
+    
+    public int getMin() {
+        return maxStack.peek();
+    }
+}
+```

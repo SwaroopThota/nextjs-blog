@@ -1,0 +1,35 @@
+---
+lang: "java"
+title: "Kadane's Algorithm"
+slug: "kadanes-algorithm"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+// Algorithm:
+// Initialize:
+//     max_so_far = INT_MIN
+//     max_ending_here = 0
+
+// Loop for each element of the array
+//   (a) max_ending_here = max_ending_here + a[i]
+//   (b) if(max_so_far < max_ending_here)
+//             max_so_far = max_ending_here
+//   (c) if(max_ending_here < 0)
+//             max_ending_here = 0
+// return max_so_far
+
+// code:
+ int maxSum(int[] arr){
+     int currSum = 0,  maxSum = Integer.MIN_VALUE; // if including empty subarray then maxSum =0;
+     // here we use the concept of prefix sum. If the prefix sum is less than 0 then we don't
+    // forward that sum to next iteration, we start form 0.
+    for(int i : arr){
+         currSum+=i;
+         maxSum = Math.max(maxSum,currSum);
+         if(currSum < 0)
+         currSum = 0;
+    }
+    return maxSum;
+}
+```

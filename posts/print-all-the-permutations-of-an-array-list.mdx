@@ -1,0 +1,100 @@
+---
+lang: "java"
+title: "Print All the Permutations of an Array/List"
+slug: "print-all-the-permutations-of-an-array-list"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//using visited array
+class Solution {
+    static List<List<Integer>> ans;
+    static boolean[] vis;
+    public List<List<Integer>> permute(int[] nums) {
+        ans  = new ArrayList<>();
+        vis = new boolean[nums.length];
+        helper(nums,nums.length,new ArrayList<Integer>());
+        return ans;
+    }
+    public void helper(int[] nums,int i,ArrayList<Integer> list){
+        if(i==0){
+            ans.add(new ArrayList<Integer>(list));
+            return;
+        }
+        for(int j=0;j<nums.length;j++){
+            if(!vis[j]){
+                vis[j] = true;
+                list.add(nums[j]);
+                helper(nums,i-1,list);
+                vis[j] = false;
+                list.remove(list.size()-1);
+            }
+        }
+    }
+}
+//By swapping elements
+class Solution {
+    static List<List<Integer>> ans;
+    public List<List<Integer>> permute(int[] nums) {
+        ans  = new ArrayList<>();
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i : nums){
+            arr.add(i);
+        }
+        helper(arr,0);
+        return ans;
+    }
+    public void helper(ArrayList<Integer> arr,int i){
+        if(i==arr.size()){
+            ans.add(new ArrayList<Integer>(arr));
+            return;
+        }
+        for(int j=i;j<arr.size();j++){
+            swap(arr,i,j);
+            helper(arr,i+1);
+            swap(arr,i,j);
+        }
+    }
+    public void swap(ArrayList<Integer> arr,int i,int j){
+        int temp = arr.get(i);
+        arr.set(i,arr.get(j));
+        arr.set(j,temp);
+    }
+}
+
+//printing unique permutations if array/list contains duplicate elements
+//using visited set
+class Solution {
+    static List<List<Integer>> ans;
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        ans = new ArrayList<>();
+        ArrayList<Integer> arr = new ArrayList<>();
+        for(int i : nums){
+            arr.add(i);
+        }
+        helper(arr,0);
+        return ans;
+    }
+    public void helper(ArrayList<Integer> arr,int i){
+        if(i==arr.size()){
+            ArrayList<Integer> list = new ArrayList<Integer>(arr);
+            ans.add(list);
+            return;
+        }
+        Set<Integer> vis = new HashSet<>();
+        for(int j=i;j<arr.size();j++){
+            if(vis.contains(arr.get(j))) //=> if elem is already swapped we don't swap it again
+                continue;
+            vis.add(arr.get(j));
+            swap(arr,i,j);
+            helper(arr,i+1);
+            swap(arr,i,j);
+        }
+    }
+    public void swap(ArrayList<Integer> arr,int i,int j){
+        int temp = arr.get(i);
+        arr.set(i,arr.get(j));
+        arr.set(j,temp);
+    }
+}
+```

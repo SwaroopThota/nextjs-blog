@@ -1,0 +1,23 @@
+---
+lang: "java"
+title: "Maximum Product Subarray"
+slug: "maximum-product-subarray"
+author: "Swaroop"
+date: "Saturday, 21 May 2022"
+---
+```java
+public int maxProduct(int[] nums) {
+        int max = Integer.MIN_VALUE, maxEndingHere = 1, minEndingHere = 1;
+        for(int i : nums){
+            if(i < 0){
+                int temp = maxEndingHere;
+                maxEndingHere = minEndingHere;
+                minEndingHere = temp;
+            }
+            maxEndingHere = Math.max(i, maxEndingHere*i);
+            minEndingHere = Math.min(i, minEndingHere*i);
+            max = Math.max(max, maxEndingHere);
+        }
+        return max;
+}
+```

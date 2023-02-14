@@ -1,0 +1,75 @@
+---
+lang: "java"
+title: "LRU Cache"
+slug: "lru-cache"
+author: "Swaroop"
+date: "Saturday, 24 September 2022"
+---
+```java
+/* 
+Implement the LRUCache class:
+- LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
+- int get(int key) Return the value of the key if the key exists, otherwise return -1.
+- void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.
+*/
+class LRUCache {
+    static class Node{
+        int key, value;
+        Node prev, next;
+        Node(int key, int value){
+            this.key = key;
+            this.value = value;
+            this.prev = null;
+            this.next = null;
+        }
+    }
+    Map<Integer, Node> map;
+    Node dummyHead;
+    Node tail;
+    int capacity;
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        map = new HashMap<>();
+        dummyHead = new Node(-1, -1);
+        tail = dummyHead;
+    }
+    
+    public int get(int key) {
+        if(map.containsKey(key)){ 
+            Node cur = map.get(key);
+            // if cur node is not a tail then moving it to tail
+            if(tail != cur){
+                cur.next.prev = cur.prev;
+                cur.prev.next = cur.next;
+                tail.next = cur;
+                cur.prev = tail;
+                tail = tail.next;
+            }
+            return cur.value;
+        }
+        return -1;
+    }
+    
+    public void put(int key, int value) {
+        Node cur;
+        if(map.containsKey(key)) {
+           // already present so updating value and moving it to tail
+            cur = map.get(key);
+            cur.value = value;
+            get(key);
+        } else{
+            cur = new Node(key, value);
+            map.put(key, cur);
+            tail.next = cur;
+            cur.prev = tail;
+            tail = tail.next;
+        }
+        if(map.size() > capacity){
+           // if our framesize exceeds given capacity, we remove least recently used item.
+            map.remove(dummyHead.next.key);
+            dummyHead.next = dummyHead.next.next;
+            dummyHead.next.prev = dummyHead;
+        }
+    }
+}
+```

@@ -1,0 +1,20 @@
+---
+lang: "java"
+title: "Creating a server using only Node.Js"
+slug: "creating-a-server-using-only-node-js"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//tutorial link : https://youtu.be/2LUdnb-mls0
+const http = require('http');
+const fs = require('fs');
+const server = http.createServer((req,res)=>{
+    res.statusCode = 200;
+    res.setHeader('Content-Type','text/html');
+    res.end(fs.readFileSync("./index.html"));
+})
+server.listen(port, ()=>{
+    console.log(`Server is listening at http://192.168.31.5:${port}`);
+})
+```

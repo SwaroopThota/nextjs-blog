@@ -1,0 +1,42 @@
+---
+lang: "java"
+title: "Palindromic LinkedList"
+slug: "palindromic-linked-list"
+author: "Swaroop"
+date: "Monday, 21 March 2022"
+---
+```java
+//https://www.youtube.com/watch?v=ee-DuKtRNGw&list=PLUcsbZa0qzu3yNzzAxgvSgRobdUUJvz7p&index=38&ab_channel=AnujBhaiya
+public class Solution {
+    public int lPalin(ListNode head) {
+        if(head == null || head.next == null) return 1;
+        ListNode middle = findMiddle(head);
+        // reverse  the list from middle
+        // revList returns last node
+        ListNode last = revList(middle);
+        ListNode start = head;
+        while(last != null && start.val == last.val){
+            last = last.next;
+            start = start.next;
+        }
+        return last == null ? 1 : 0;
+    }
+    public ListNode findMiddle(ListNode head){
+        ListNode fast = head, slow = head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+    public ListNode revList(ListNode head){
+        if(head.next == null){
+            return head;
+        }
+        ListNode rev = revList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return rev;
+    }
+}
+```

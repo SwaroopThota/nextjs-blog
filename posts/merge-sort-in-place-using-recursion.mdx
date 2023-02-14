@@ -1,0 +1,38 @@
+---
+lang: "java"
+title: "Merge Sort (in place using recursion)"
+slug: "merge-sort-in-place-using-recursion"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+    int[] arr = new int[]{3,4,2,1,5,7,6};
+    mergeSort(arr,0,arr.length-1);
+    System.out.println(Arrays.toString(arr)); // [1,2,3,4,5,6,7]
+void mergeSort(int arr[], int l, int r)
+    {
+        if(l==r) return;
+        int mid = (l+r)/2;
+        mergeSort(arr,l,mid);
+        mergeSort(arr,mid+1,r);
+        merge(arr,l,mid,r);
+    }
+ void merge(int arr[], int l, int m, int r)
+    {
+         int[] mergedArr = new int[r-l+1];
+         int i = l,j = m+1,k = 0;
+         while(i<=m && j<=r){
+            if(arr[i] < arr[j])
+                mergedArr[k] = arr[i++];
+            else
+                mergedArr[k] = arr[j++];
+            k++;
+         }
+         while(i<=m)
+            mergedArr[k++] = arr[i++];
+        while(j<=r)
+            mergedArr[k++] = arr[j++];
+        for(int f=0;f<mergedArr.length;f++)  // System.arraycopy(mergedArr,0,arr,l,r-l+1);
+            arr[l+f] = mergedArr[f];
+    }
+```

@@ -1,0 +1,95 @@
+---
+lang: "java"
+title: "Reverse Linkedlist"
+slug: "reverse-linkedlist"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//iterative
+Node reverseLinkedList(Node head){
+      if(head==null || head.next==null) return head;
+      Node prev=null,curr=head,next=null;
+      while(curr != null){
+                next=curr.next;
+                curr.next = prev;
+                prev=curr;
+                curr = next;
+       }
+       head = prev;
+       return head;
+}
+//recursive
+public Node reverseList(Node head) {
+        if(head == null || head.next ==null) 
+            return head;
+        Node rev = reverseList(head.next); //it returns last node
+        head.next.next = head;
+        head.next = null;
+        return rev;// sends last as it becomes first node in reverse LL
+    }
+
+// Reverse only certain part of linkedlist
+// https://leetcode.com/problems/reverse-linked-list-ii/
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if(head == null || head.next == null) return head;
+        ListNode leftEnd = head, rightEnd = head;
+        for(int i=1;i<=right;i++){
+            // for getting the node before 'left' pos node
+            if(i<left-1) leftEnd = leftEnd.next;
+            // for getting the node after 'right' pos node
+            rightEnd = rightEnd.next;
+        }
+        // (left == 1) checking if head is included or not
+        // if head is included leftEnd is not used
+        ListNode revHead = (left == 1) ? head : leftEnd.next;
+        ListNode newRevHead = revList(revHead, right-left+1);
+       // now revHead will become the last node of reversed part
+        // so we'll link it to rightend node
+        revHead.next = rightEnd;
+        // linking leftEnd to head node of reversed part
+        if(left != 1)   leftEnd.next = newRevHead;
+        return (left == 1) ? newRevHead : head;
+    }
+    public ListNode revList(ListNode head,int n){
+        ListNode cur = head,prev = null;
+        for(int i=1;i<=n;i++){
+            ListNode next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+        return prev;
+    }
+}
+// another implementation
+public class Solution {
+    ListNode last = null;
+    public ListNode reverseBetween(ListNode head, int B, int C) {
+        if(head == null || head.next == null) return head;
+        int i=1;
+        ListNode start = head, prev = null;
+        while(i<B){
+            prev = start;
+            start = start.next;
+            i++;
+        }
+        ListNode rev = revList(start,B,C);
+        start.next = last;
+        if(prev != null)
+            prev.next = rev;
+        return prev != null ? head : rev;
+    }
+    public ListNode revList(ListNode head,int a,int b){
+        if(a == b){
+            last = head.next;
+            return head;
+        }
+        ListNode rev = revList(head.next,a+1,b);
+        head.next.next = head;
+        head.next = null;
+        return rev;
+    }
+}
+```

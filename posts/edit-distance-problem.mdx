@@ -1,0 +1,50 @@
+---
+lang: "java"
+title: "Edit Distance Problem"
+slug: "edit-distance-problem"
+author: "Swaroop"
+date: "Friday, 15 April 2022"
+---
+```java
+// Given two strings A and B, find the minimum number of steps required to convert A to B. (each operation is counted as 1 step.)
+// You have the following 3 operations permitted on a word:
+// Insert a character
+// Delete a character
+// Replace a character
+
+public class Solution {
+    int[][] dp;
+    public int minDistance(String A, String B) {
+        dp = new int[A.length()+1][B.length()+1];
+        for(int[] arr : dp) Arrays.fill(arr,-1);
+        return helper(A,B,A.length(), B.length());
+    }
+    public int helper(String A, String B, int i, int j){
+        // If first string is empty, the only option is to
+        // insert all characters of second string into first
+        if (i == 0) return j;
+ 
+        // If second string is empty, the only option is to
+        // remove all characters of first string
+        if (j == 0) return i;
+
+        // if(i == 0 || j == 0) return i+j;
+
+        if(dp[i][j] != -1) return dp[i][j];
+       
+       // If last characters of two strings are same,
+       // nothing much to do. Ignore last characters and
+       // get count for remaining strings. => 0 operations are required
+       if(A.charAt(i-1) == B.charAt(j-1)) return dp[i][j] = helper(A,B,i-1,j-1);
+
+       // If last characters are not same, consider all
+       // three operations on last character of first
+       // string, recursively compute minimum cost for all
+       // three operations and take minimum of three
+       // values. => we can do add, remove or replace a char at pos which will cost 1
+       //                               insert                    remove            replace     
+        return dp[i][j] = 1 + min(helper(A,B,i,j-1), helper(A,B,i-1,j), helper(A,B,i-1,j-1));
+    }
+}
+
+```

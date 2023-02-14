@@ -1,0 +1,40 @@
+---
+lang: "java"
+title: "Finding Bridges in a graph"
+slug: "finding-bridges-in-a-graph"
+author: "Swaroop"
+date: "Thursday, 8 September 2022"
+---
+```java
+class Solution{
+    int[] time, lowerTime;
+    boolean[] vis;
+    int timer;
+    ArrayList<ArrayList<Integer>> bridges;
+    ArrayList<ArrayList<Integer>> findBridges(int V, ArrayList<ArrayList<Integer>> adj){
+        time = new int[V];
+        lowerTime = new int[V];
+        vis = new boolean[V];
+        timer = 1;
+        bridges = new ArrayList<>();
+        for(int i=0;i<V;i++){
+            if(!vis[i]) 
+                dfs(adj, -1, i);
+        }
+        return bridges;
+    }
+    static void dfs(ArrayList<ArrayList<Integer>> adj, int parent,int u){
+        vis[u] = true;
+        time[u] = lowerTime[u] = timer++;
+        for(int v : adj.get(u)){
+            if(v == parent) continue;
+            if(!vis[v]){
+                dfs(adj, u, v);
+                lowerTime[u] = Math.min(lowerTime[u], lowerTime[v]);
+                if(lowerTime[v] > time[u]) bridges.add(new ArrayList<Integer>{{ add(u); add(v); }});
+            }else lowerTime[u] = Math.min(lowerTime[u], lowerTime[v]);
+        }
+    }
+}
+
+```

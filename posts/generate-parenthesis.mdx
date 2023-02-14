@@ -1,0 +1,33 @@
+---
+lang: "java"
+title: "Generate Parenthesis"
+slug: "generate-parenthesis"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        return helper(new StringBuilder(""),0,0,n);
+    }
+    public List<String> helper(StringBuilder s,int open,int close,int max){
+        if(s.length() == 2*max){
+            List<String> list = new ArrayList<>();
+            list.add(s.toString());
+            return list;
+        }
+        List<String> list = new ArrayList<>();
+        if(open<max){
+            s.append("(");
+            list.addAll(helper(s,open+1,close,max));
+            s.deleteCharAt(s.length() - 1);
+        }
+        if(close<open){
+            s.append(")");
+            list.addAll(helper(s,open,close+1,max));
+            s.deleteCharAt(s.length() - 1);
+        }
+        return list;
+    }
+}
+```

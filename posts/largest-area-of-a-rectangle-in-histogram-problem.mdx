@@ -1,0 +1,55 @@
+---
+lang: "java"
+title: "Largest Area of a rectangle in Histogram problem"
+slug: "largest-area-of-a-rectangle-in-histogram-problem"
+author: "Swaroop"
+date: "Wednesday, 23 March 2022"
+---
+```java
+// https://leetcode.com/problems/largest-rectangle-in-histogram/
+// using stack
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+       // gives indices which are smaller and on the left side of each element
+        int[] leftMin = getLeftMin(heights,n);
+       // gives indices which are smaller and on the right side of each element
+        int[] rightMin = getRightMin(heights,n);
+        int maxArea = 0;
+        for(int i=0;i<n;i++){
+            maxArea = Math.max(maxArea, (rightMin[i]-leftMin[i]-1) * heights[i]);
+        }
+        return maxArea;
+    }
+    
+    public int[] getRightMin(int[] arr,int n){
+        Stack<Integer> st = new Stack<>();
+        int[] rightMin = new int[n];
+        for(int i=n-1;i>=0;i--){
+           // removing elems >= cur until we get elem < cur
+            while(!st.isEmpty() && arr[st.peek()] >= arr[i]){
+                st.pop();
+            }
+            // if no elem is found on right side which is smaller, then we put 'n' bcz that height extends up to the right end
+            rightMin[i] = st.isEmpty() ? n : st.peek();
+            st.push(i);
+        }
+        return rightMin;
+    }
+    
+    public int[] getLeftMin(int[] arr,int n){
+        Stack<Integer> st = new Stack<>();
+        int[] leftMin = new int[n];
+        for(int i=0;i<n;i++){
+           // removing elems >= cur until we get elem < cur
+            while(!st.isEmpty() && arr[st.peek()] >= arr[i]){
+                st.pop();
+            }
+            // if no elem is found on left side which is smaller, then we put '-1' bcz that height extends up to the left end
+            leftMin[i] = st.isEmpty() ? -1 : st.peek();
+            st.push(i);
+        }
+        return leftMin;
+    }
+}
+```

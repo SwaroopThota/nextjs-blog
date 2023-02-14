@@ -1,0 +1,32 @@
+---
+lang: "java"
+title: "Sieve of Eratosthenes"
+slug: "sieve-of-eratosthenes"
+author: "Swaroop"
+date: "Thursday, 14 April 2022"
+---
+```java
+//Given a number n, print all primes smaller than or equal to n. It is also given that n is a small number. 
+//The sieve of Eratosthenes is one of the most efficient ways to find all primes smaller than n when n is smaller than 10 million or so
+
+void sieveOfEratosthenes(int n){
+        boolean prime[] = new boolean[n + 1];
+        for (int i = 0; i <= n; i++)
+            prime[i] = true;
+ 
+        for (int p = 2; p * p <= n; p++){
+            if (prime[p] == true){
+                // Update all multiples of p
+                for (int i = p * p; i <= n; i += p)
+                    prime[i] = false;
+            }
+        }
+        for (int i = 2; i <= n; i++){
+            if (prime[i] == true)
+                System.out.print(i + " ");
+        }
+}
+// Time Complexity: O(n*log(log(n)))
+// Auxiliary Space: O(n)
+
+```

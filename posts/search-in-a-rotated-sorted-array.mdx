@@ -1,0 +1,157 @@
+---
+lang: "java"
+title: "Search in a Rotated Sorted Array"
+slug: "search-in-a-rotated-sorted-array"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+public int search(int[] arr, int target) {
+        int low = 0,high = arr.length - 1;
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(arr[mid] == target){
+                return mid;
+            }
+            if(arr[low] <= arr[mid]){
+            //=> left of mid is sorted
+                if(target >= arr[low] && target < arr[mid]){
+//here, we check if the target is present in the left part of mid i.e arr[low]<=target<arr[mid]
+                    high = mid -1;
+                }else{
+                    low = mid + 1;
+                }
+            }else{
+            //=> right of mid is sorted
+                if(target > arr[mid] && target <= arr[high]){
+//here, we check if the target is present in the right part of mid i.e arr[mid]<target<arr[mid]
+                    low = mid + 1;
+                }else{
+                    high = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+
+    // 3 4 5 6 7 0 1 2
+    // s           p      e
+    //pivot is the element which is greater than the next element.
+    //pivot divides the array into 2 sorted arrays
+    //first we find pivot using findPivot
+    //if(pivot == -1) => the array is not rotated, so perform bs on the whole array
+    // if target(eg: 1) < start(eg:3) then we have to search in (pivot+1,end)
+    // else i.e. target(eg: 5) > start(eg:3) then we have to serach in (start, pivot-1)
+    
+    //*the array will be rotated pivot + 1 times
+    
+    public int search(int[] nums, int target) {
+        int start = 0, end = nums.length - 1;
+        int pivot = findPivot(nums,start,end);
+        if(pivot == -1)
+            return bS(nums,start,end,target);
+        if(nums[pivot] == target) return pivot;
+        if(nums[start] <= target) 
+            return bS(nums,start,pivot-1,target);
+        return bS(nums,pivot+1,end,target);
+    }
+    
+    int findPivot(int[] arr, int start, int end){
+        while(start <= end){
+            int mid = start + (end - start)/2;
+            if(mid < end && arr[mid] > arr[mid + 1])
+                return mid;
+            if(mid > start && arr[mid] < arr[mid - 1])
+                return mid - 1;
+            if(arr[start] >= arr[mid]) end = mid -1;
+            else start = mid + 1;
+        }
+        return -1;
+    }
+    
+    int bS(int[] arr, int start, int end, int target){
+        while(start <= end){
+                int mid = start + (end - start) /2;
+                if(arr[mid] == target) return mid;
+                if(arr[mid] > target) end = mid -1;
+                else start = mid + 1;
+          }
+        return -1;
+    }
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int pivot = findPivot(nums);
+        if(nums[pivot] == target) return pivot;
+        // elem is present in first half
+        if(target >= nums[0]) return BS(nums, 0, pivot-1, target);
+        // second half
+        return BS(nums, pivot+1, nums.length-1, target);
+    }
+    
+    public int findPivot(int[] arr) {
+        int s = 0, e = arr.length - 1;
+        while(s < e){
+            int mid = (s+e)/2;
+            if(mid < arr.length - 1 && arr[mid] > arr[mid+1]) return mid;
+            if(mid > 0 && arr[mid] < arr[mid-1]) return mid-1;
+            if(arr[mid] < arr[0]) e = mid-1;
+            else s = mid+1;
+        }
+        // comes here when array is not rotated => s = e = n-1(last)
+        return s;
+    }
+    public int BS(int[] arr, int s, int e, int key){
+        while(s <= e){
+            int mid = (s+e)/2;
+            if(arr[mid] == key) return mid;
+            if(arr[mid] > key) e = mid-1;
+            else s = mid+1;
+        }
+        return -1;
+    }
+}
+
+
+// search in rotated sorted array if there exist duplicate elements in the array
+//  OC hai bhai
+public boolean search(int[] nums, int target) {
+        int n = nums.length;
+        int pivot = findPivot(nums,0,n-1);
+        if(pivot == -1){ //the array is already sorted
+            return Bs(nums,0,n-1,target);
+        }
+        return Bs(nums,0,pivot,target) || Bs(nums,pivot+1,n-1,target); 
+    }
+    public int findPivot(int[] arr,int lo,int hi){
+        while(lo <= hi){
+            int mid = (lo+hi)/2;
+            if(mid<arr.length-1 && arr[mid] > arr[mid+1]){
+                return mid;
+            }
+            if(arr[lo] == arr[mid]){ //if mid and starting elms are equal we check for pivot in the right and left side of mid
+                return Math.max(findPivot(arr,lo,mid-1),findPivot(arr,mid+1,hi));
+            }else if(arr[lo] < arr[mid]){
+                lo = mid+1;
+            }else{
+                hi = mid-1;
+            }
+        }
+        return -1;
+    }
+    public boolean Bs(int[] arr,int lo,int hi,int key){
+        while(lo<=hi){
+            int mid = (lo+hi)/2;
+            if(arr[mid] == key){
+                return true;
+            }
+            if(arr[mid] <= key){
+                lo = mid+1;
+            }else{
+                hi=mid-1;
+            }
+        }
+        return false;
+    }
+```

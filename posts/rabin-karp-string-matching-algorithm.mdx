@@ -1,0 +1,44 @@
+---
+lang: "java"
+title: "Rabin Karp String Matching Algorithm"
+slug: "rabin-karp-string-matching-algorithm"
+author: "Swaroop"
+date: "Wednesday, 16 March 2022"
+---
+```java
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = Integer.parseInt(in.nextLine()), mod = 1000000007;
+        while(t-- > 0){
+            String[] s = in.nextLine().split(" ");
+            char[] a = s[0].toCharArray();
+            char[] b = s[1].toCharArray();
+            int n = a.length, m = b.length;
+            long hA = 0, hB = 0;
+            long[] p = new long[m];
+            p[0] = 1;
+            hA = a[0]-'a';
+            hB = b[0]-'a';            
+            int i=1;
+            while(i<n){
+                p[i] = (p[i-1]*31)%mod;
+                hA = (hA + (a[i]-'a')*p[i])%mod;
+                hB = (hB + ((b[i]-'a')*p[i])%mod )%mod;
+                i++;
+            }
+            int cnt = 0;
+            if(hA == hB) cnt++;
+            while(i<m){
+                p[i] = (p[i-1]*31)%mod;
+                hA = (hA*31)%mod;
+                hB = (hB - ((b[i-n]-'a')*p[i-n])%mod + ((b[i]-'a')*p[i])%mod + mod)%mod;
+                if(hA == hB) cnt++;
+                i++;
+            }
+            System.out.println(cnt);
+        }
+    }
+}
+```

@@ -1,0 +1,54 @@
+---
+lang: "java"
+title: "Sliding Window Maximum"
+slug: "sliding-window-maximum"
+author: "Swaroop"
+date: "Wednesday, 30 March 2022"
+---
+```java
+class Solution {
+    public int[] maxSlidingWindow(int[] arr, int k) {
+        Deque<Integer> dq = new LinkedList<>();
+        int i = 0, n = arr.length;            
+        while(i<k){
+            while(!dq.isEmpty() && arr[i] > arr[dq.peekLast()])
+                dq.removeLast();
+            dq.addLast(i);
+            i++;
+        }
+        int[] maxWindow = new int[n-k+1];
+        maxWindow[i-k] = arr[dq.peek()];
+        while(i<n){
+            if(arr[i-k] == arr[dq.peek()]) dq.removeFirst();
+            while(!dq.isEmpty() && arr[i] > arr[dq.peekLast()])
+                dq.removeLast();
+            dq.addLast(i);
+            i++;
+            maxWindow[i-k] = arr[dq.peek()];
+        }
+        return maxWindow;
+    }
+}
+
+public int[] maxSlidingWindow(int[] arr, int k) {	
+		int n = arr.length;
+		int[] maxInWindow = new int[n-k+1];
+		Deque<Integer> dq = new ArrayDeque<>();
+		for (int i = 0; i < arr.length; i++) {
+			// remove numbers out of range k
+			if(!dq.isEmpty() && dq.peek() < i - k + 1) {
+				dq.removeFirst();
+			}
+			// remove smaller numbers in k range as they are useless
+			while (!dq.isEmpty() && arr[dq.peekLast()] < arr[i]) {
+				dq.removeLast();
+			}
+			// dq contains index... r contains content
+			q.addLast(i);
+			if (i >= k - 1) {
+				maxInWindow[i-k-1] = arr[dq.peek()];
+			}
+		}
+		return maxInWindow;
+}
+```

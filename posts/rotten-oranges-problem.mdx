@@ -1,0 +1,46 @@
+---
+lang: "java"
+title: "Rotten Oranges Problem"
+slug: "rotten-oranges-problem"
+author: "Swaroop"
+date: "Monday, 1 August 2022"
+---
+```java
+// https://leetcode.com/problems/rotting-oranges/submissions/
+// You are given an m x n grid where each cell can have one of three values: 0 representing an empty cell, 1 representing a fresh orange, 2 representing a rotten orange.
+// Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten. Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.
+
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int n = grid.length, m = grid[0].length, freshCnt = 0, time = 0;
+        Queue<int[]> q = new LinkedList<>();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == 1) freshCnt++;
+                // for considering all the rotten oranges at the same time.
+                if(grid[i][j] == 2) q.offer(new int[]{i, j});
+            }
+        }
+        // no fresh oranges present
+        if(freshCnt == 0) return 0;
+        int[][] dir = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+        while(!q.isEmpty()){
+            int size = q.size();
+            time++;
+            while(size-- > 0){
+                int[] cur = q.poll();
+                for(int[] d : dir){
+                    int x = cur[0] + d[0], y= cur[1] + d[1];
+                    if(x < 0 || y < 0 || x >= n || y >= m || grid[x][y] != 1) continue;
+                    // converting fresh orange to rotten
+                    q.offer(new int[]{x, y});
+                    grid[x][y] = 2;
+                    freshCnt--;
+                }
+            }
+        }
+        // checking if still fresh oranges are left.
+        return freshCnt == 0 ? time-1 : -1;
+    }
+}
+```

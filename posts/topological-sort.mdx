@@ -1,0 +1,72 @@
+---
+lang: "java"
+title: "Topological sort"
+slug: "topological-sort"
+author: "Swaroop"
+date: "Friday, 12 August 2022"
+---
+```java
+// Topological sort - Topological Sorting of  DAG is a linear ordering of vertices such that for every directed edge from vertex ‘u’ to vertex ‘v’, vertex ‘u’ comes before ‘v’ in the ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
+// using DFS(uses stack)
+
+class Solution{
+    // given graph is a DAG. If not, we should check for cycle using a dfsVis[].
+    static Stack<Integer> topo;
+    static ArrayList<ArrayList<Integer>> adjList;
+    static boolean[] vis;
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
+        adjList = adj;
+        topo = new Stack<>();
+        vis = new boolean[V];
+        for(int u=0;u<V;u++){
+            if(!vis[u])
+                dfs(u);
+        }
+        int[] ans = new int[V];
+        for(int i=0;i<V;i++) ans[i] = topo.pop();
+        return ans;
+    }
+    static void dfs(int u){
+        vis[u] = true;
+        for(int v : adjList.get(u))
+            if(!vis[v]) 
+                dfs(v);
+        topo.push(u);
+    }
+}
+
+// using BFS(Kahn's)
+// In this, we keep adding vertices with in-degree '0' to the queue and decrement its neighbour's in-degree.
+// If our topological sort doesn't contain all the nodes => there is a cycle in the graph.
+class Solution{
+
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
+        Queue<Integer> q = new LinkedList<>();
+        int[] indegree = new int[V];
+        for(ArrayList<Integer> u : adj){
+            for(int v : u){
+                indegree[v]++;
+            }
+        }
+        for(int i=0;i<V;i++){
+            if(indegree[i] == 0) 
+                q.offer(i);
+        }
+        int idx = 0;
+        int[] topo = new int[V];
+        while(!q.isEmpty()){
+            int cur = q.poll();
+            topo[idx++] = cur;
+            for(int v : adj.get(cur)){
+                indegree[v]--;
+                if(indegree[v] == 0)
+                    q.offer(v);
+            }
+        }
+        // idx < V => There's a cycle in the graph
+        return topo;
+    }
+}
+
+
+```

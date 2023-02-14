@@ -1,0 +1,48 @@
+---
+lang: "java"
+title: "Enclosing Substring"
+slug: "enclosing-substring"
+author: "Swaroop"
+date: "Monday, 14 March 2022"
+---
+```java
+// finding the minimum or shortest length of the substring of string B such it contains all the characters of string A
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = Integer.parseInt(in.nextLine());
+        while(t-- > 0){
+            String[] s = in.nextLine().split(" ");
+            char[] a = s[0].toCharArray();
+            char[] b = s[1].toCharArray();
+            int[] freqA = new int[26];
+            int[] freqB = new int[26];
+           // storing the freq array of both strings
+            for(char c : a) freqA[c-'a']++;
+            // min length of substring that contains all chars of a is its length ( a string's length)
+            for(int i=0;i<a.length;i++) freqB[b[i]-'a']++;
+            int minLength = Integer.MAX_VALUE;
+            int p1=0,p2=a.length-1;
+            while(p2 < b.length){
+                while(valid(freqA,freqB)){
+                     // if the substring is valid ie contains all chars of a, then we update minLength and decrease the starting pointer p1 and update the freqB
+                    minLength = Math.min(minLength,p2-p1+1);
+                    freqB[b[p1++]-'a']--;
+                }
+                // if not valid move the end pointer p2 and update the freqB
+                p2++;
+                if(p2 < b.length)
+                    freqB[b[p2]-'a']++;
+            }
+            System.out.println(minLength == Integer.MAX_VALUE ? -1 : minLength);
+        }
+    }
+    public static boolean valid(int[] freqA,int[] freqB){
+        for(int i=0;i<26;i++){
+            if(freqA[i] > freqB[i]) return false;
+        }
+        return true;
+    }
+}
+```

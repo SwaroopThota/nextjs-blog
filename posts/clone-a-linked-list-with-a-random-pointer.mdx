@@ -1,0 +1,52 @@
+---
+lang: "java"
+title: "Clone a LinkedList with a random pointer"
+slug: "clone-a-linked-list-with-a-random-pointer"
+author: "Swaroop"
+date: "Wednesday, 30 March 2022"
+---
+```java
+       public Node copyRandomList(Node head) {
+        if(head == null) return null;
+        Node temp = head;
+        while(temp != null){
+            Node nn = new Node(temp.val);
+            nn.next = temp.next;
+            temp.next = nn;
+            temp = temp.next.next;
+        }
+        Node copyHead = head.next, p1 = head, p2 = copyHead;
+        while(p1 != null){
+            p2.random = p1.random == null ? null : p1.random.next;
+            p1 = p1.next.next;
+            p2 = p2.next == null ? null : p2.next.next;
+        }
+        p1 = head; p2 = copyHead;
+        while(p1 != null){
+            p1.next = p1.next.next;
+            p1 = p1.next;
+            p2.next = p2.next == null ? null : p2.next.next;
+            p2 = p2.next;
+        }
+        return copyHead;
+    }
+
+// using map
+    public Node copyRandomList(Node head) {
+        if(head == null) return null;
+        Map<Node,Node> map = new HashMap<>();
+        Node temp = head;
+        while(temp != null){
+            Node nn = new Node(temp.val);
+            map.put(temp,nn);
+            temp = temp.next;
+        }
+        temp = head;
+        while(temp != null){
+            map.get(temp).next = map.get(temp.next);
+            map.get(temp).random = map.get(temp.random);
+            temp = temp.next;
+        }
+        return map.get(head); // copyHead
+    }
+```

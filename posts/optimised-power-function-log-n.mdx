@@ -1,0 +1,23 @@
+---
+lang: "java"
+title: "Optimised power function (log(n))"
+slug: "optimised-power-function-log-n"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//x^n
+int[] dp;
+int calcPower(int x, int n){
+       dp= new int[n+1];
+       Arrays.fill(d,p-1);
+       dp[0]=1; //x^0 = 1
+       dp[1]=x; //x^1 = x
+       return findPower(x,n);
+}
+int findPower(int x, int n){
+       if(dp[n] != -1) return dp[n];
+       if((x&1)==0) return dp[n] = findPower(x,n/2,arr) * findPower(x,n/2,arr);             //n is even so x^n = x^(n/2) * x^(n/2)
+       return dp[n] = findPower(x,n/2,arr) * findPower(x,n/2,arr) * x;          //n is odd so x^n = x^(n/2) * x^(n/2) * x
+}
+```

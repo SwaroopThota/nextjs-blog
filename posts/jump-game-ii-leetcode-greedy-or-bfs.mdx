@@ -1,0 +1,30 @@
+---
+lang: "java"
+title: "Jump Game II - Leetcode(Greedy or BFS)"
+slug: "jump-game-ii-leetcode-greedy-or-bfs"
+author: "Swaroop"
+date: "Saturday, 28 May 2022"
+---
+```java
+//https://www.youtube.com/watch?v=dJ7sWiOoK7g&ab_channel=NeetCode
+// 2 3 1 1 4
+//                        2              3 1               1 4
+// windows -          1                2                  3
+// steps                0                1                 2
+public int jump(int[] nums) {
+        int n = nums.length, l = 0, r = 0, jumps = 0;
+        while(r < n-1){
+            int maxDist = 0;
+            // finding farthest point we can reach with the help of elems in window
+            for(int i=l;i<=r;i++)
+                maxDist = Math.max(maxDist, i + nums[i]);
+            // updating the window
+            // next elem becomes new left
+            l = r+1;
+           // our farthest point becomes new right
+            r = maxDist;
+            jumps++;
+        }
+        return jumps;
+}
+```

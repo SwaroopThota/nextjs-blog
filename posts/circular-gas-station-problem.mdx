@@ -1,0 +1,24 @@
+---
+lang: "java"
+title: "Circular Gas Station Problem"
+slug: "circular-gas-station-problem"
+author: "Swaroop"
+date: "Saturday, 28 May 2022"
+---
+```java
+public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length, netFuel = 0, start = 0, tank = 0;
+        for(int i=0;i<n;i++){
+            int f = gas[i] - cost[i];
+            netFuel += f;
+            tank += f;
+            // if we can't reach the next gas station with the cur Fuel => we can't start from there so start = i+1
+            if(tank < 0){ 
+                start = i+1;
+                tank = 0;
+            }
+        }
+        // if netFuel < 0 => we can't complete a circle
+        return netFuel >= 0 ? start : -1;
+}
+```

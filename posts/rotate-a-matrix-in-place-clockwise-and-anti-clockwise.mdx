@@ -1,0 +1,50 @@
+---
+lang: "java"
+title: "Rotate a Matrix in place(Clockwise and anti-clockwise)"
+slug: "rotate-a-matrix-in-place-clockwise-and-anti-clockwise"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//Anti-clockwise: https://www.geeksforgeeks.org/inplace-rotate-square-matrix-by-90-degrees/    
+//Clockwise: https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
+int[][] antiClock(int[][] mat){
+        int n = mat.length, m = mat[0].length;
+        for(int i=0;i<n/2;i++){
+            for(int j=i;j<m-i-1;j++){
+                int temp = mat[i][j];
+                mat[i][j] = mat[j][n-i-1];
+                mat[j][n-i-1] = mat[n-i-1][m-j-1];
+                mat[n-i-1][m-j-1] = mat[m-j-1][i];
+                mat[m-j-1][i] = temp;
+            }
+        }
+        return mat;
+    }
+    int[][] clock(int[][] mat){
+        int n = mat.length;
+        for(int i=0;i<n/2;i++){
+            for(int j=i;j<n-i-1;j++){
+                int temp = mat[i][j];
+                mat[i][j] = mat[n-j-1][i];
+                mat[n-j-1][i] = mat[n-i-1][n-j-1];
+                mat[n-i-1][n-j-1] = mat[j][n-i-1];
+                mat[j][n-i-1] = temp;
+            }
+        }
+        return mat;
+    }
+// clockwise
+public void rotate(ArrayList<ArrayList<Integer>> a) {
+        int n = a.size(), m = a.get(0).size();
+        for(int i=0;i<n/2;i++){
+            for(int j=i;j<m-i-1;j++){
+                int temp = a.get(i).get(j);
+                a.get(i).set(j, a.get(m-j-1).get(i));
+                a.get(m-j-1).set(i, a.get(n-i-1).get(m-j-1));
+                a.get(n-i-1).set(m-j-1, a.get(j).get(n-i-1));
+                a.get(j).set(n-i-1, temp);
+            }
+        }
+}
+```

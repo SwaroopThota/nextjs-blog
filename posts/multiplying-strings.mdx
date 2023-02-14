@@ -1,0 +1,115 @@
+---
+lang: "java"
+title: "Multiplying Strings"
+slug: "multiplying-strings"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+public String multiply(String num1, String num2) {
+        if(num1.equals("0") || num2.equals("0")) 
+               return "0";
+        int a=num1.length(),b=num2.length();
+        int[] n1 = new int[a];
+        int[] n2 = new int[b];
+        int[] res = new int[a+b]; //result can't exceed a+b
+        int k = 0;
+        for(char c : num1.toCharArray()){
+            n1[k++] = c - '0';
+        }
+        k = 0;
+        for(char c : num2.toCharArray()){
+            n2[k++] = c - '0';
+        }
+        k = a+b-1;
+        int carry = 0;
+        for(int i=a-1;i>=0;i--){
+            for(int j=0;j<b;j++){
+                int temp = res[k-j] + n1[i]*n2[b-1-j] + carry;
+                res[k-j] = temp % 10;
+                carry = temp/10;
+            }
+            if(carry != 0){
+                res[k-b] = carry;
+                carry = 0;
+            }
+            k--;
+        }
+        String ans = "";
+        int i = (res[0] == 0)?1:0; //we get extra 0 at the beginning of array for some numbers so we start from next pos
+        while(i<a+b)
+            ans += res[i];
+        return ans;
+    }
+
+//gfg: https://practice.geeksforgeeks.org/problems/multiply-two-strings/1/
+class Solution
+{
+    public String multiplyStrings(String s1,String s2)
+    {
+        //code here.
+        boolean isNeg = false;
+        if(s1.charAt(0) == '-'){
+            s1 = s1.substring(1);
+            isNeg = !isNeg;
+        }
+        if(s2.charAt(0) == '-'){
+            s2 = s2.substring(1);
+            isNeg = !isNeg;
+        }
+        s1 = removeLeadingZeros(s1);
+        s2 = removeLeadingZeros(s2);
+        if(s1.equals("0") || s2.equals("0")){
+            return "0";
+        }
+        int n = s1.length(),m = s2.length();
+        int[] a = convert(s1,n);
+        int[] b = convert(s2,m);
+        int[] c = new int[n+m];
+        String ans = multiply(a,b,c,n,m);
+        if(isNeg) ans = "-"+ans;
+        return ans;
+    }
+    public int[] convert(String s,int n){
+        int[] arr = new int[n];
+        char[] ch = s.toCharArray();
+        for(int i=0;i<n;i++){
+            arr[i] = ch[i]-'0';
+        }
+        return arr;
+    }
+    public String removeLeadingZeros(String s){
+        int k = 0;
+        while(k<s.length() && s.charAt(k) == '0'){
+            k++;
+        }
+        if(k == s.length()){
+            return "0";
+        }
+        return s.substring(k);
+    }
+    public String multiply(int[] a,int[] b,int[] c,int n,int m){
+        int carry = 0,k=n;
+        for(int i=n-1;i>=0;i--){
+            for(int j=m-1;j>=0;j--){
+                int temp = b[j]*a[i] + c[k+j] + carry;
+                c[k+j] = temp%10;
+                carry = temp/10;
+            }
+            if(carry != 0){
+                c[k-1] += carry;
+                carry = 0;
+            }
+            k--;
+        }
+        // System.out.println(Arrays.toString(c)+"\n"+Arrays.toString(a)+"\n"+Arrays.toString(b));
+        StringBuilder s = new StringBuilder("");
+        k = (c[0] == 0)?1:0;
+        while(k<c.length){
+            s.append(c[k]);
+            k++;
+        }
+        return s.toString();
+    }
+}
+```

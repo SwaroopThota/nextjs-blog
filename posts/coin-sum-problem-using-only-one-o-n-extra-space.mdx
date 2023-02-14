@@ -1,0 +1,21 @@
+---
+lang: "java"
+title: "Coin Sum Problem using only one O(N) Extra Space"
+slug: "coin-sum-problem-using-only-one-o-n-extra-space"
+author: "Swaroop"
+date: "Tuesday, 26 April 2022"
+---
+```java
+public class Solution {
+    public int coinchange2(int[] coins, int amount) {
+    int[] dp = new int[amount + 1];
+    dp[0] = 1;
+    for (int coin : coins) {
+      for (int x = coin; x < amount + 1; ++x) {
+        dp[x] = (dp[x] + dp[x - coin]) % 1000007
+      }
+    }
+    return dp[amount];
+    }
+}
+```

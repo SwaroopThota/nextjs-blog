@@ -1,0 +1,34 @@
+---
+lang: "java"
+title: "Union And Find By Rank - Disjoint Sets"
+slug: "union-and-find-by-rank-disjoint-sets"
+author: "Swaroop"
+date: "Saturday, 3 September 2022"
+---
+```java
+// link - https://youtu.be/3gbO7FDYNFQ
+class DisjointSet{
+        int[] parent, rank;
+        public DisjointSet(int V){
+            parent = new int[V];
+            rank = new int[V];
+            for(int i=0;i<V;i++) parent[i] = i;
+        }
+        int find(int v){
+            if(v == parent[v]) return v;
+            return parent[v] = find(parent[v]);
+        }
+        void union(int u, int v){
+            int U = find(u), V = find(v);
+            if(rank[U] > rank[V]) parent[V] = U;
+            else if(rank[U] < rank[V]) parent[U] = v;
+            else {
+                parent[V] = U;
+                rank[U]++;
+            }
+        }
+        boolean sameComponent(int u, int v){
+            return find(u) == find(v);
+        }
+}
+```

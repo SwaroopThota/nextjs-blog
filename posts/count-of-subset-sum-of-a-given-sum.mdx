@@ -1,0 +1,32 @@
+---
+lang: "java"
+title: "Count of Subset sum of a given sum"
+slug: "count-of-subset-sum-of-a-given-sum"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+arr = [2,4,6,8,10], n = 5
+sum = 10
+helper(arr,n,sum) //(2,8),(4,6),(10) -> 3
+//recursive
+int helper(int[] arr,int n,int sum){
+       if(sum == 0) return 1;
+       if(n==0) return 0;
+       if(dp[n][sum] != -1) return d[n][sum];
+       if(arr[n-1] > sum) return dp[n][sum] = helper(arr,n-1,sum);
+       return dp[n][sum] = helper(arr,n-1,sum) + helper(arr,n-1,sum - arr[n-1]);
+}
+//iterative
+int helper2(int[] arr, int n,int sum){
+       for(int i=0;i<=sum;i++)  dp[0][i] = 0;
+       for(int i=0;i<=n;i++)  dp[i][0] = 1;
+       for(int i=1;i<=n;i++){
+          for(int j=1;j<=sum;j++){
+              if(arr[i-1] > j) dp[i][j] = dp[i-1][j];
+              else dp[i][j] = dp[i-1][j] + dp[i-1][j-arr[i-1]];
+          }
+       }
+       return dp[n][sum];
+} 
+```

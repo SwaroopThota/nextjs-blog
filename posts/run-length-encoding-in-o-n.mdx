@@ -1,0 +1,25 @@
+---
+lang: "java"
+title: "Run Length encoding in O(N)"
+slug: "run-length-encoding-in-o-n"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+// Run length encoding - converting aaaabbbccdaa -> a4b3c2d1a2
+
+public static String encode(String message) {
+        StringBuilder ans = new StringBuilder("");
+        int prev = 0,n=message.length();
+        for(int i=0;i<=n;i++){
+           // if prev != curr we add prev to ans with count as diff of indexes and update prev with curr
+          // i==n is for final char count
+            if(i==n || message.charAt(prev) != message.charAt(i)){
+                ans.append(message.charAt(prev));
+                ans.append(i-prev);
+                prev = i;
+            }
+        }
+        return ans.toString();
+	}
+```

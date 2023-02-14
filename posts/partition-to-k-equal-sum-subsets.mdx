@@ -1,0 +1,50 @@
+---
+lang: "java"
+title: "Partition to K Equal Sum Subsets"
+slug: "partition-to-k-equal-sum-subsets"
+author: "Swaroop"
+date: "Friday, 15 July 2022"
+---
+```java
+// https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+class Solution {
+    boolean[] vis;
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int totalSum = 0, maxNum = 0;
+        for(int i : nums){
+            maxNum = Math.max(maxNum, i);
+            totalSum += i;
+        }
+        
+        // if totalSum can't be partitioned into k parts
+        if(totalSum % k != 0 || maxNum > totalSum/k) return false;
+        
+        vis = new boolean[nums.length];
+        Arrays.sort(nums);
+        return helper(nums, k, totalSum/k, 0, 0);
+    }
+    public boolean helper(int[] nums, int k, int sum, int curSum,int idx){
+        // found k-1 partions remaining will definately be kth partition
+        if(k == 1) return true;
+        
+        // found one partition
+        if(curSum == sum) return helper(nums, k-1, sum, 0, 0);
+        
+        for(int i=idx;i<nums.length;i++){
+            // Skip logic: 
+           // cannot visit what's already visited and out of range case.
+            if(vis[i] || nums[i] + curSum > sum) continue;
+            
+            // Skip logic:
+            // if cur position (i) and the last position (i - 1)  has same value & the last position (i-1) is not visited, that means it does not work for current combination, 
+            // and of course this position (i), it won't work as well, skip it.
+            if(i > 0 && nums[i] == nums[i-1] && !vis[i-1]) continue;
+            
+            vis[i] = true;
+            if(helper(nums, k, sum, curSum + nums[i], i+1)) return true;
+            vis[i] = false;
+        }
+        return false;
+    }
+}
+```

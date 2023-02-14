@@ -1,0 +1,66 @@
+---
+lang: "java"
+title: "Path in a Graph - BFS & DFS"
+slug: "path-in-a-graph-bfs-dfs"
+author: "Swaroop"
+date: "Wednesday, 8 June 2022"
+---
+```java
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int t = Integer.parseInt(br.readLine());
+        while(t-- > 0){
+            String[] nm = br.readLine().split(" ");
+            int n = Integer.parseInt(nm[0]), m = Integer.parseInt(nm[1]);
+            ArrayList[] g = new ArrayList[n+1];
+            for(int i=1;i<=n;i++) g[i] = new ArrayList<Integer>();
+            for(int i=0;i<m;i++){
+                String[] uv = br.readLine().split(" ");
+                int u = Integer.parseInt(uv[0]), v = Integer.parseInt(uv[1]);
+                g[u].add(v);
+                g[v].add(u);
+            }
+            int q = Integer.parseInt(br.readLine());
+            for(int i=0;i<q;i++){
+                boolean[] vis = new boolean[n+1];
+                String[] uv = br.readLine().split(" ");
+                int u = Integer.parseInt(uv[0]), v = Integer.parseInt(uv[1]);
+                bw.write(DFS(g, u, v, vis) ? "Yes\n" : "No\n");
+            }
+        }
+        bw.flush();
+        bw.close();
+    }
+    // use stack instead of queue in BFS and implement DFS to avoid stackOverflow error
+    public static boolean DFS(ArrayList<Integer>[] g, int s, int d, boolean[] vis){
+        if(s == d) return true;
+        vis[s] = true;
+        for(int i : g[s]){
+            if(!vis[i] && DFS(g, i, d, vis)) return true;
+        }
+        return false;
+    }
+    
+    public static boolean BFS(ArrayList<Integer>[] g, int s, int d, boolean[] vis){
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.offer(s);
+        vis[s] = true;
+        while(!q.isEmpty()){
+            int cur = q.poll();
+            if(cur == d) return true;
+            for(int i : g[cur]){
+                if(vis[i]) continue;
+                vis[i] = true;
+                q.offer(i);
+            }
+        }
+        return false;
+    }
+}
+```

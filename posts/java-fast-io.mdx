@@ -1,0 +1,88 @@
+---
+lang: "java"
+title: "Java FastIO"
+slug: "java-fast-io"
+author: "Swaroop"
+date: "Tuesday, 13 September 2022"
+---
+```java
+static class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastReader(){
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        String next(){
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+        int nextInt() { return Integer.parseInt(next()); }
+
+        long nextLong() { return Long.parseLong(next()); }
+
+        double nextDouble(){ return Double.parseDouble(next()); }
+
+        String nextLine(){
+            String str = "";
+            try {
+                if(st.hasMoreTokens())    str = st.nextToken("\n");
+                else    str = br.readLine();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }
+    
+    static class FastWriter {
+        BufferedWriter bw;
+
+        public FastWriter() {
+            bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        }
+
+        public void print(Object obj) {
+            try{
+                bw.write(obj.toString());
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        public void println(Object obj) {
+            try{
+                bw.write(obj.toString()+"\n");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        public void nl() {
+            try{
+                bw.newLine();                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        public void flush() {
+            try{
+                bw.flush();                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+    }
+     	
+```

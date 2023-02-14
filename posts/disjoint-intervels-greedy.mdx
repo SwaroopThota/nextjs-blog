@@ -1,0 +1,48 @@
+---
+lang: "java"
+title: "Disjoint Intervels - Greedy"
+slug: "disjoint-intervels-greedy"
+author: "Swaroop"
+date: "Tuesday, 3 May 2022"
+---
+```java
+// Given a set of N intervals denoted by 2D array A of size N x 2, 
+// the task is to find the length of the maximal set of mutually disjoint intervals. 
+// Two intervals [x, y] & [p, q] are said to be disjoint if they do not have any point in common.
+// Return an integer denoting the length of the maximal set of mutually disjoint intervals.
+
+//Eg : A = [ [1, 4], [2, 3], [4, 6], [8, 9] ] => 3 ( [[2, 3], [4, 6], [8, 9]] )
+
+public class Solution {
+    public int solve(int[][] A) {
+        // sort the matrix w.r.t end points in ascending order
+        // we sorting w.r.t end points or end time, to get the task that will be finished first
+        // and we go on pick the task that will be finished first
+        Arrays.sort(A, new Comparator<int[]>(){
+            public int compare(int[] a, int[] b){
+                return a[1] - b[1];
+            }
+        });
+        // or
+        Arrays.sort(A, (o1,o2) -> Integer.compare(o1[1],o2[1]));
+
+        // the 1st set is always included
+        int prevRightEnd = A[0][1], cnt = 1;
+        // sysout(prev) -> for printing
+
+        for(int i=1;i<A.length;i++){
+            int curLeftEnd = A[i][0];
+            int curRightEnd = A[i][1];
+            // curr left > prev right => both sets are disjoint Eg: prev-(1,2) cur-(3,4)
+            if(prevRightEnd < curLeftEnd){
+                cnt++;
+                //update the prev to cur
+                prevRightEnd = curRightEnd;
+                //sysout(prev)
+            }
+        }
+        return cnt;
+    }
+}
+
+```

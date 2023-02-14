@@ -1,0 +1,38 @@
+---
+lang: "java"
+title: "Subarray Sum Equals K"
+slug: "subarray-sum-equals-k"
+author: "Swaroop"
+date: "Friday, 8 July 2022"
+---
+```java
+// Approach - 1 O(N2)
+    public int subarraySum(int[] nums, int k) {
+        int n = nums.length, cnt = 0;;
+        int[] prefixSum = new int[n+1];
+        // here we leave prefixSum[0] for the subarrays starting with the first element itself
+        for(int i=1;i<=n;i++) prefixSum[i] = prefixSum[i-1] + nums[i-1];
+        for(int start=0;start<=n;start++){
+            for(int end=start+1;end<=n;end++){
+                if(prefixSum[end] - prefixSum[start] == k) cnt++;
+            }
+        }
+        return cnt;
+    }
+
+// Approach - 2 O(N)
+    public int subarraySum(int[] nums, int k) {
+        int n = nums.length, cnt = 0, sum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        // for the subarrays starting with the first element itself
+        map.put(0, 1);
+        for(int i=0;i<n;i++){
+            // prefixSumEnd
+            sum += nums[i];
+            // prefixSumStart = prefixSumEnd- k, we check if we have found prefixSumStart earlier
+            if(map.containsKey(sum - k)) cnt += map.get(sum - k);
+            map.put(sum, map.getOrDefault(sum, 0)+1);
+        }
+        return cnt;
+    }
+```

@@ -1,0 +1,32 @@
+---
+lang: "java"
+title: "Min distance between two given nodes of a Binary Tree"
+slug: "min-distance-between-two-given-nodes-of-a-binary-tree"
+author: "Swaroop"
+date: "Sunday, 29 May 2022"
+---
+```java
+class GfG {
+    int findDist(Node root, int a, int b) {
+        // bcz lca is the nearest common node for both a and b
+        Node lca = LCA(root, a, b);
+       // ans = dist from lca to a + dist from lca to b 
+        return dist(lca, a, 0) + dist(lca, b, 0);
+    }
+    Node LCA(Node root, int a, int b){
+        if(root == null) return null;
+        if(root.data == a || root.data == b) return root;
+        Node l = LCA(root.left, a, b);
+        Node r = LCA(root.right, a, b);
+        if(l != null && r != null) return root;
+        return r == null ? l : r;
+    }
+    int dist(Node a, int b, int dist){
+        if(a == null) return -1;
+        if(a.data == b) return dist;
+        int l = dist(a.left, b, dist+1);
+        if(l != -1) return l;
+        return dist(a.right, b, dist+1);
+    }
+}
+```

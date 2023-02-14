@@ -1,0 +1,40 @@
+---
+lang: "java"
+title: "Merge Elements"
+slug: "merge-elements"
+author: "Swaroop"
+date: "Friday, 3 June 2022"
+---
+```java
+/* Given an integer array A of size N. You have to merge all the elements of the array into one with the minimum possible cost.
+The rule for merging is as follows:
+
+Choose any two adjacent elements of the array with values say X and Y and merge them into a single element with value (X + Y) paying a total cost of (X + Y).
+Return the minimum possible cost of merging all elements. */
+public class Solution {
+    int[][] dp;
+    int[] prefixSum;
+    public int solve(int[] A) {
+        int n = A.length;
+        if(n <= 1) return 0;
+        dp = new int[n][n];
+        prefixSum = new int[n];
+        prefixSum[0] = A[0];
+        for(int i=1;i<n;i++) prefixSum[i] = prefixSum[i-1] + A[i];
+        for(int[] arr : dp)
+            Arrays.fill(arr, -1);
+        for(int i=0;i<n;i++)
+            dp[i][i] = 0;
+        return helper(A, 0, n-1);
+    }
+    public int helper(int[] arr, int i, int j){
+        if(dp[i][j] != -1) return dp[i][j];
+        // totalCost = total cost merge elements from i to j
+        int ans = Integer.MAX_VALUE, totalCost = prefixSum[j] - (i == 0 ? 0 : prefixSum[i-1]);
+        for(int k=i;k<j;k++){
+            ans = Math.min(ans, totalCost + helper(arr, i, k) + helper(arr, k+1, j));
+        }
+        return dp[i][j] = ans;
+    }
+}
+```

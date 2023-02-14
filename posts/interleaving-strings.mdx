@@ -1,0 +1,53 @@
+---
+lang: "java"
+title: "Interleaving Strings"
+slug: "interleaving-strings"
+author: "Swaroop"
+date: "Wednesday, 27 April 2022"
+---
+```java
+    
+// Given A, B, C, find whether C is formed by the interleaving of A and B.
+
+    static Boolean[][] dp;
+
+    public static int isInterleave(String A, String B, String C) {
+        dp = new Boolean[A.length() + 1][B.length() + 1];
+        for (Boolean[] arr : dp)
+            Arrays.fill(arr, null);
+        Boolean ans = helper(A, B, C, A.length(), B.length(), C.length());
+        // for(Boolean[] arr : dp)
+        //    System.out.println(Arrays.toString(arr));
+        return ans ? 1 : 0;
+    }
+
+    public static Boolean helper(String a, String b, String c, int i, int j, int k) {
+
+        if(dp[i][j] != null) return dp[i][j];
+
+        // a string have been found in c so => remaining of c should be equal to b
+        if (i == 0) {
+            return dp[i][j] = b.substring(0, j).equals(c.substring(0, k));
+        }
+
+       // b string have been found => c should be equal to a
+        if (j == 0) {
+            return dp[i][j] = a.substring(0, i).equals(c.substring(0, k));
+        }
+
+        // if one of the char in a or b is matching with c => we are on the right path
+        if (a.charAt(i - 1) == c.charAt(k - 1)) return dp[i][j] = helper(a, b, c, i - 1, j, k - 1);
+        if (b.charAt(j - 1) == c.charAt(k - 1)) return dp[i][j] = helper(a, b, c, i, j - 1, k - 1);
+
+       // if both are matching => we have to check for both the matching conditions separately
+        if (a.charAt(i - 1) == c.charAt(k - 1) && b.charAt(j - 1) == c.charAt(k - 1)) {
+            return dp[i][j] = helper(a, b, c, i - 1, j, k - 1) || helper(a, b, c, i, j - 1, k - 1);
+        }
+        // or we can simply write this instead of the above 3, it will work the same
+//     if (a.charAt(i - 1) == c.charAt(k - 1) || b.charAt(j - 1) == c.charAt(k - 1)) {
+//          return dp[i][j] = helper(a, b, c, i - 1, j, k - 1) || helper(a, b, c, i, j - 1, k - 1);
+//     }
+        // if none are matching => we are on the wrong path return or backtrack
+        return dp[i][j] = false;
+    }
+```

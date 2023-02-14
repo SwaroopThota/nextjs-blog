@@ -1,0 +1,54 @@
+---
+lang: "java"
+title: "Books Allocations - Binary Search"
+slug: "books-allocations-binary-search"
+author: "Swaroop"
+date: "Monday, 16 May 2022"
+---
+```java
+// Given an array of integers A of size N and an integer B.
+// The College library has N bags, and the ith book has A[i] number of pages.
+// You have to allocate books to B number of students so that the maximum number of pages allocated to a student is minimum.
+// A book will be allocated to exactly one student.
+// Each student has to be allocated at least one book.
+// Allotment should be in contiguous order, for example: A student cannot be allocated book 1 and book 3, skipping book 2.
+// Calculate and return that minimum possible number.
+// NOTE: Return -1 if a valid assignment is not possible.
+
+public class Solution {
+    public int books(int[] books, int studs) {
+        int max = -1, sum = 0;
+        for(int i : books){
+            sum += i;
+            max = Math.max(max,i);
+        }
+       // we can't distribute to every stud
+        if(studs > books.length) return -1;
+       // everybody gets one book and max will be the ans
+        if(studs == books.length) return max;
+        int s = max, e = sum, ans = -1;
+        while(s <= e){
+            int mid = (s+e)/2;
+            if(isPossibleAllocation(books,studs,mid)){
+                ans = mid;
+                e = mid-1;
+            }else s = mid+1;
+        }
+        return ans;
+    }
+    public boolean isPossibleAllocation(int[] books, int studs, int mid){
+        int studsCnt = 1, curBooks = 0;
+        for(int book : books){
+            curBooks += book;
+            if(curBooks > mid){
+                studsCnt++;
+                curBooks = book;
+            }
+        }
+        return studs >= studsCnt;
+    }
+}
+
+
+
+```

@@ -1,0 +1,35 @@
+---
+lang: "java"
+title: "Merge sort LinkedList"
+slug: "merge-sort-linked-list"
+author: "Swaroop"
+date: "Wednesday, 30 March 2022"
+---
+```java
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null) return head;
+        ListNode mid = findMid(head);
+        ListNode rightHead = mid.next;
+        mid.next = null;
+        return merge(sortList(head), sortList(rightHead));
+    }
+    public ListNode findMid(ListNode head){
+        if(head == null || head.next == null) return head;
+        ListNode slow = head, fast = head.next.next;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    public ListNode merge(ListNode h1, ListNode h2){
+        if(h1 == null) return h2;
+        if(h2 == null) return h1;
+        if(h1.val < h2.val){
+            h1.next = merge(h1.next,h2);
+            return h1;
+        }
+        h2.next = merge(h1,h2.next);
+        return h2;
+    }
+```

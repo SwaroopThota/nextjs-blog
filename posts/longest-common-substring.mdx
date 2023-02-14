@@ -1,0 +1,43 @@
+---
+lang: "java"
+title: "Longest Common Substring"
+slug: "longest-common-substring"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+class Solution{
+    int longestCommonSubstr(String S1, String S2, int n, int m){
+       return helper(S1,S2,n,m);
+    }
+	public int helper(String a, String b, int n, int m) {
+	    int[][] dp = new int[n+1][m+1];
+		int ans = 0;
+		for(int i=1;i<=n;i++){
+			for (int j = 1; j <= m; j++) {
+				if(a.charAt(i-1) == b.charAt(j-1)){
+					dp[i][j] = 1 + dp[i-1][j-1];
+					ans = Math.max(ans, dp[i][j]);
+				}else{
+					dp[i][j] = 0;
+				}
+			}
+		}
+		return ans;
+	}
+
+
+//recursive
+/// couldn't find memoized version
+      public int helper(String a, String b, int i, int j, int count) {
+		if(i==0 || j==0){
+			return count;
+		}
+		if(a.charAt(i-1) == b.charAt(j-1)){
+			count = helper(a, b, i-1, j-1, count+1);
+		}
+		count = Math.max(count,Math.max(helper(a, b, i-1, j, 0), helper(a, b, i, j-1, 0)));
+		return count;
+	}
+}
+```

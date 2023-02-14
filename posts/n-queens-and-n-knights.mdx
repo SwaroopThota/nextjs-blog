@@ -1,0 +1,128 @@
+---
+lang: "java"
+title: "N-Queens and N-Knights"
+slug: "n-queens-and-n-knights"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//N-Queens
+public class App {
+    public static void main(String[] args) throws Exception {
+        int n = 4;
+        nQueens(n);
+    }
+
+    static boolean[][] board;
+
+    private static void nQueens(int n) {
+        board = new boolean[n][n];
+        helper(0);
+    }
+
+    private static void helper(int n) {
+       // all n, queens are put
+        if (n == board.length) {
+            displayBoard();
+            return;
+        }
+        for (int i = 0; i < board.length; i++) {
+           // checking if we can put a queen at that pos
+            if (isSafe(n, i)) {
+                board[n][i] = true;
+                helper(n + 1);
+                board[n][i] = false;
+            }
+        }
+    }
+
+    private static void displayBoard() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                System.out.print((board[i][j] ? 'Q' : '-') + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private static boolean isSafe(int r, int c) {
+        int i = r, j1 = c, j2 = c;
+        //checking if there exists a queen in
+        while (i >= 0) {
+            // top rows
+            if (board[i][c])
+                return false;
+            //top left diagonal
+            if (j1 >= 0 && board[i][j1--])
+                return false;
+            //top right diagonal
+            if (j2 < board.length && board[i][j2++])
+                return false;
+            i--;
+        }
+        return true;
+    }
+}
+
+//N-Knights
+public class App {
+    public static void main(String[] args) throws Exception {
+        int n = 4;
+        nKnights(n);
+    }
+
+    static boolean[][] board;
+
+    private static void nKnights(int n) {
+        board = new boolean[n][n];
+        helper(0, 0, n);
+    }
+
+    private static void helper(int r, int c, int cnt) {
+        if (r == board.length) {
+            return;
+        }
+        if (cnt == 0) {
+            displayBoard();
+            return;
+        }
+        if(c == board.length){
+            helper(r+1,0,cnt);
+            return;
+        }
+        if (isSafe(r, c)) {
+            board[r][c] = true;
+            helper(r, c + 1, cnt - 1);
+            board[r][c] = false;
+        }
+    }
+
+    private static void displayBoard() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                System.out.print((board[i][j] ? 'K' : '-') + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private static boolean isSafe(int r, int c) {
+        if (r - 2 >= 0 && c - 1 >= 0 && board[r - 2][c - 1]) {
+            return false;
+        }
+        if (r - 2 >= 0 && c + 1 < board.length && board[r - 2][c + 1]) {
+            return false;
+        }
+        if (r - 1 >= 0 && c + 2 < board.length && board[r - 1][c + 2]) {
+            return false;
+        }
+        if (r + 1 < board.length && c + 2 < board.length && board[r + 1][c + 2]) {
+            return false;
+        }
+        return true;
+    }
+}
+
+```

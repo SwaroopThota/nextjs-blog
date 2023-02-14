@@ -1,0 +1,20 @@
+---
+lang: "java"
+title: "Family Structure or Generation Problem"
+slug: "family-structure-or-generation-problem"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+public static String kthChildNthGeneration(int level, long pos) {
+        //generations start with Male || the first child of each generation or level will be male
+        if(level == 1 || pos == 1){
+            return "Male";
+        }
+        //here we check the gender of parent to find the gender of child i.e the first child(odd pos) will have the same gender of parent and the 2nd will have diff gender.
+        if(kthChildNthGeneration(level-1,(pos+1)/2) == "Male"){
+            return (pos&1) == 1 ? "Male" : "Female";
+        }
+        return (k&1) == 1 ? "Female" : "Male";
+}
+```

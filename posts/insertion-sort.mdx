@@ -1,0 +1,60 @@
+---
+lang: "java"
+title: "Insertion Sort"
+slug: "insertion-sort"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+private static void sort(int[] arr) {
+        for(int i=0;i<arr.length-1;i++){
+            for(int j=i+1;j>0;j--){
+                if(arr[j] < arr[j-1]){
+                    swap(arr,j,j-1);
+                }else{
+                    break;
+                }
+            }
+        }
+    }
+    private static void swap(int[] arr, int a, int b) {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+
+Parallel sort
+public static void llelSort(int[] primary,int[] secondary, int l, int r){
+        if(l==r) return;
+        int mid = (l+r)/2;
+        llelSort(primary,secondary,l,mid);
+        llelSort(primary,secondary,mid+1,r);
+        merge(primary,secondary,l,mid,r);
+    }
+    public static void merge(int[] primary,int[] secondary, int l, int m, int r){
+         int[] mergedArr = new int[r-l+1];
+         int[] mergedArr2 = new int[r-l+1];
+         int i = l,j = m+1,k = 0;
+         while(i<=m && j<=r){
+            if(primary[i] < primary[j]){
+                mergedArr[k] = primary[i];
+                mergedArr2[k] = secondary[i++];
+            }
+            else{
+                mergedArr[k] = primary[j];
+                mergedArr2[k] = secondary[j++];
+            }
+            k++;
+         }
+         while(i<=m){
+            mergedArr[k] = primary[i];
+            mergedArr2[k++] = secondary[i++];
+        }
+        while(j<=r){
+            mergedArr[k] = primary[j];
+            mergedArr2[k++] = secondary[j++];
+        }
+        System.arraycopy(mergedArr,0,primary,l,r-l+1);
+        System.arraycopy(mergedArr2,0,secondary,l,r-l+1);
+}
+```

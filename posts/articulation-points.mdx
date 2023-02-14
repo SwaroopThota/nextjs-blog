@@ -1,0 +1,45 @@
+---
+lang: "java"
+title: "Articulation Points"
+slug: "articulation-points"
+author: "Swaroop"
+date: "Friday, 9 September 2022"
+---
+```java
+class Solution
+{
+    int[] timeOfInsertion, low;
+    boolean[] vis;
+    Set<Integer> set;
+    int timer;
+    public void articulationPoints(int V,ArrayList<ArrayList<Integer>> adj){
+        timeOfInsertion = new int[V];
+        low = new int[V];
+        vis = new boolean[V];
+        set = new TreeSet<>();
+        timer = 1;
+        for(int i=0;i<V;i++){
+            if(!vis[i])
+                dfs(adj, 0, -1);
+        }
+        System.out.println(set);
+    }
+    public void dfs(ArrayList<ArrayList<Integer>> adj, int u, int parent){
+        vis[u] = true;
+        timeOfInsertion[u] = low[u] = timer++;
+        int child = 0;
+        for(int v : adj.get(u)){
+            if(v == parent) continue;
+            if(!vis[v]){
+                child++;
+                dfs(adj, v, u);
+                low[u] = Math.min(low[u], low[v]);
+                if(low[v] >= timeOfInsertion[u] && parent != -1)
+                    set.add(u);
+            }else low[u] = Math.min(low[u], timeOfInsertion[v]);
+        }
+        if(parent == -1 && child > 1) 
+            set.add(u);
+    }
+}
+```

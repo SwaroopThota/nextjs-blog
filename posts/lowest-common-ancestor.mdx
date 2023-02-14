@@ -1,0 +1,29 @@
+---
+lang: "java"
+title: "Lowest Common Ancestor"
+slug: "lowest-common-ancestor"
+author: "Swaroop"
+date: "Thursday, 7 April 2022"
+---
+```java
+// BST
+public TreeNode LCA(TreeNode root, TreeNode p, TreeNode q) {
+        // both are on left side
+        if(root.val > p.val && root.val > q.val)    return LCA(root.left, p, q);
+        // both are on right side
+        if(root.val < p.val && root.val < q.val)    return LCA(root.right, p, q);
+        // else (root.val == p.val || root.val == q.val) , root.val > min(p,q) && root.val < max(p,q) i.e p, q are on either sides of node
+        return root;
+}
+
+//Binary Tree
+public TreeNode LCA(TreeNode root, TreeNode p, TreeNode q) {
+       // cur node is null or we found one of p, q
+        if (root == null || root == p || root == q) return root;
+        TreeNode l = LCA(root.left,p,q);
+        TreeNode r = LCA(root.right,p,q);
+        // p, q are on either sides of node
+        if(l != null && r != null) return root;
+        return r == null ? l : r;
+    }
+```

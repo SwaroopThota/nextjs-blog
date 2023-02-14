@@ -1,0 +1,76 @@
+---
+lang: "java"
+title: "Nodes At A Distance K Problem"
+slug: "nodes-at-a-distance-k-problem"
+author: "Swaroop"
+date: "Friday, 8 April 2022"
+---
+```java
+// BST
+    int cnt = 0;
+    public static int findX(Node root, int s, int k){
+       // found the node incr cnt by no. of nodes at dist k
+        if(root.data == s){
+            cnt += noOfNodesAtDistK(root,k);
+            return 1;
+        }
+        // req node is on left sub tree
+        if(s < root.data){
+            int l = findX(root.left,s,k);
+            // ancestor at a dist k
+            if(l == k) cnt++;
+            // no of nodes at dist k-l-1 on opp side of s
+            cnt += noOfNodesAtDistK(root.right,k-l-1);
+            return l+1;
+        }
+        int r = findX(root.right,s,k);
+        if(r == k) cnt++;
+        cnt += noOfNodesAtDistK(root.left,k-r-1);
+        return r+1;
+    }
+    // calc the no. of nodes at a dist k below the given the node
+    public static int noOfNodesAtDistK(Node root, int k){
+        if(root == null || k < 0) return 0;
+        if(k == 0) return 1;
+        return noOfNodesAtDistK(root.left,k-1) + noOfNodesAtDistK(root.right,k-1);
+    }
+
+// Binary Tree
+class Solution {
+    List<Integer> ans;
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        ans = new ArrayList<>();
+        findTargetNode(root,target,k);
+        return ans;
+    }
+    public int findTargetNode(TreeNode root, TreeNode target, int k){
+        if(root == null) return 0;
+        if(root == target){
+            nodesAtDistK(root,k);
+            return 1;
+        }
+        int l = findTargetNode(root.left,target,k);
+        if(l > 0){
+            if(l == k) ans.add(root.val);
+            else if(l < k)  nodesAtDistK(root.right,k-l-1);
+            return l+1;
+        }
+        int r = findTargetNode(root.right,target,k);
+        if(r > 0){
+            if(r == k) ans.add(root.val);
+            else if(r < k) nodesAtDistK(root.left,k-r-1);
+            return r+1;
+        }
+        return 0;
+    }
+    public void nodesAtDistK(TreeNode root, int k){
+        if(root == null || k<0) return;
+        if(k == 0){
+            ans.add(root.val);
+            return;
+        }
+        nodesAtDistK(root.left, k-1);
+        nodesAtDistK(root.right, k-1);
+    }
+}
+```

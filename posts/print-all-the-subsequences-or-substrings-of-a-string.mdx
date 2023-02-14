@@ -1,0 +1,31 @@
+---
+lang: "java"
+title: "Print all the subsequences or substrings of a string"
+slug: "print-all-the-subsequences-or-substrings-of-a-string"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+// printSubstrings("abc",0,"");
+
+void printSubstrings(String str, int index, String newString){
+        if(index == str.length()){
+                     System.out.println(newString+",");
+                     return;
+        }
+        //char at index is included
+        printSubstring(str, index+1, newString+str.charAt(index));
+        //char at index is not included
+        printSubstring(str, index+1, newString);
+}
+/* output:
+c,
+b,
+bc,
+a,
+ac,
+ab,
+abc,
+,
+*/
+```

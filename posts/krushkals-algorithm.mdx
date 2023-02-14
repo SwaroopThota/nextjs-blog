@@ -1,0 +1,65 @@
+---
+lang: "java"
+title: "Krushkal's Algorithm"
+slug: "krushkals-algorithm"
+author: "Swaroop"
+date: "Saturday, 3 September 2022"
+---
+```java
+class Solution{
+    static class DisjointSet{
+        int[] parent, rank;
+        public DisjointSet(int V){
+            parent = new int[V];
+            rank = new int[V];
+            for(int i=0;i<V;i++) parent[i] = i;
+        }
+        int find(int v){
+            if(v == parent[v]) return v;
+            return parent[v] = find(parent[v]);
+        }
+        void union(int u, int v){
+            int U = find(u), V = find(v);
+            if(rank[U] > rank[V]) parent[V] = U;
+            else if(rank[U] < rank[V]) parent[U] = v;
+            else {
+                parent[V] = U;
+                rank[U]++;
+            }
+        }
+        boolean sameComponent(int u, int v){
+            return find(u) == find(v);
+        }
+    }
+    static class Edge implements Comparable<Edge>{
+        int u, v, w;
+        public Edge(int u, int v, int w){
+            this.u = u;
+            this.v = v;
+            this.w = w;
+        }
+        public int compareTo(Edge o){
+            return Integer.compare(w, o.w);
+        }
+    }
+    static int spanningTree(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj){
+        DisjointSet ds = new DisjointSet(V);
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        for(int u=0;u<V;u++){
+            for(ArrayList<Integer> node : adj.get(u)){
+                int v = node.get(0), w = node.get(1);
+                pq.add(new Edge(u, v, w));
+            }
+        }
+        int cost = 0;
+        while(!pq.isEmpty()){
+            Edge e = pq.poll();
+            int u = e.u, v = e.v, w = e.w;
+            if(ds.sameComponent(u, v)) continue;
+            ds.union(u, v);
+            cost += w;
+        }
+        return cost;
+    }
+}
+```

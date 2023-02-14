@@ -1,0 +1,152 @@
+---
+lang: "plaintext"
+title: "Computer Networks"
+slug: "computer-networks"
+author: "Swaroop"
+date: "Friday, 1 July 2022"
+---
+```java
+CN IMPORTANT QUESTIONS UNIT-WISE:
+Unit 1:
+1)	Explain the OSI reference model
+2)	Write about TCP/IP protocol stack. Differentiate TCP/IP with OSI
+3)	Explain the Guided Transmission and Un-Guided Transmission media in detail.
+Unit 2:
+1)	How CRC (cyclic redundancy check) does error detection at the sender side and receiver side with an example.
+2)	Explain in detail the data link layer protocol (stop& wait, sliding window (GO back N, Selective Repeat))?
+3)	Explain HDLC and PPP protocols?
+Unit 3:
+1)	Explain the shortest path algorithm with a neat diagram?
+2)	Explain the distance vector routing algorithm with a suitable example? - https://www.geeksforgeeks.org/distance-vector-routing-dvr-protocol/
+3)	Explain Broad-cast and multi-cast routing in the network layer? - https://www.tutorialspoint.com/data_communication_computer_network/network_layer_routing.htm
+4)	Explain Classful and Classless addressing in the network layer? - https://www.geeksforgeeks.org/classful-vs-classless-addressing/
+5)	Explain IPv4 header fields with a suitable diagram? - https://www.geeksforgeeks.org/introduction-and-ipv4-datagram-header
+Unit 4:
+1)	How does TCP does connection establishment and connection release in detail?
+2)	Draw the UDP header and explain each field?
+Unit 5:
+1)	Explain in detail about DNS?
+2)	Explain E-Mail in detail?
+3)	Explain RSA Algorithms in detail?
+4)	Explain DES and Triple DES Algorithms in detail?
+
+
+
+OSI Model:
+OSI stands for Open Systems Interconnection, developed by ISO(International Organization for Standardization), in the year 1984. It is a 7 layer architecture with each layer having specific functionality to perform. All these 7 layers work collaboratively to transmit the data from one person to another across the globe.
+
+1. Physical Layer (Layer 1) :
+It is the lowest layer of the OSI reference model and is responsible for the actual physical connection between the devices. This layer will get the signal received and convert it into 0s and 1s and send them to the DLL, which will put the frame back together. Hub, Repeater, Modem, and Cables are Physical Layer devices. 
+
+2. Data Link Layer (DLL) (Layer 2) :
+The DLL is responsible for the error-free node-to-node delivery of the message, over the physical layer. When a packet arrives in a network, it is the responsibility of the DLL to transmit it to the Host using its MAC address. Packet in DLL is referred to as Frame. Switch & Bridge are DLL devices.
+The functions of the DLL are :  
+Framing: It provides a way for a sender to transmit a set of bits that are meaningful to the receiver.
+Physical addressing: After creating frames, it adds physical addresses (MAC address) of the sender and/or receiver in the header of each frame.
+Error control: provides the mechanism of error control in which it detects and retransmits damaged or lost frames.
+Flow Control: flow control coordinates the amount of data that can be sent.
+Access control: When a single communication channel is shared by multiple devices, DLL determines which device has control over the channel at a given time.
+
+3. Network Layer (Layer 3) :
+The network layer works for the transmission of data from one host to the other located in different networks. It also takes care of packet routing i.e. selection of the shortest path to transmit the packet, from the number of routes available. The sender & receiver’s IP addresses are placed in the header by the network layer. The segment in this layer is referred to as Packet. This layer is implemented by networking devices such as routers.  
+The functions of the Network layer are :  
+Routing: The network layer protocols determine the shortest route from source to destination.
+Logical Addressing: To identify each device on internetwork uniquely, the network layer defines an addressing scheme. The sender & receiver’s IP addresses are placed in the header by the network layer.
+
+4. Transport Layer (Layer 4) :
+The transport layer provides services to the application layer and takes services from the network layer. The data in the transport layer is referred to as Segments. It is responsible for the End to End Delivery of the complete message. The transport layer also provides the acknowledgement of the successful data transmission and re-transmits the data if an error is found. It is operated by the OS and communicates with the Application Layer by making system calls. Transport Layer is called as Heart of the OSI model. The functions of the transport layer are as follows:  
+Segmentation and Reassembly: This layer accepts the message from the (session) layer, and breaks the message into smaller units. At the destination, it reassembles the message.
+Service Point Addressing: To deliver the message to the correct process, the transport layer header includes a type of address called port address.
+
+5. Session Layer (Layer 5) :
+This layer is responsible for the establishment of connection, maintenance of sessions, and authentication, and also ensures security. 
+The functions of the session layer are :  
+Session establishment, maintenance, and termination: The layer allows the two processes to establish, use and terminate a connection.
+Synchronization: This layer allows a process to add checkpoints which are considered synchronization points in the data.
+
+6. Presentation Layer (Layer 6):
+It is also called the Translation layer. The data from the application layer is extracted here and manipulated as per the required format to transmit over the network. 
+The functions of the presentation layer are : 
+Translation: For example, ASCII to EBCDIC.
+Encryption/ Decryption: Data encryption translates the data into another form or code.
+Compression: Reduces the number of bits that need to be transmitted on the network.
+
+7. Application Layer (Layer 7) :
+At the very top of the OSI Reference Model stack of layers, we find the Application layer which is implemented by the network applications. These applications produce the data, which has to be transferred over the network. Example: Application – Browsers, Skype Messenger, etc. 
+The functions of the Application layer are :  
+FTAM-File transfer access and management
+Mail Services
+Directory Services
+
+TCP/IP Model:
+It stands for Transmission Control Protocol/Internet Protocol. The TCP/IP model is a concise version of the OSI model. It contains four layers, unlike seven layers in the OSI model. The layers are:
+1. Network Access Layer –
+This layer corresponds to the combination of the Data Link Layer and Physical Layer of the OSI model. It looks out for hardware addressing and the protocols present in this layer allow for the physical transmission of data.
+
+2. Internet Layer –
+This layer parallels the functions of OSI’s Network layer. It defines the protocols which are responsible for the logical transmission of data over the entire network. The main protocols residing at this layer are :
+IP – stands for Internet Protocol and it is responsible for delivering packets from the source host to the destination host by looking at the IP addresses in the packet headers. IP has 2 versions: IPv4 and IPv6.
+ICMP – stands for Internet Control Message Protocol. It is encapsulated within IP datagrams and is responsible for providing hosts with information about network problems.
+ARP – stands for Address Resolution Protocol. Its job is to find the hardware address of a host from a known IP address.
+
+3. Host-to-Host Layer –
+This layer is analogous to the transport layer of the OSI model. It is responsible for end-to-end communication and error-free delivery of data. It shields the upper-layer applications from the complexities of data. The two main protocols present in this layer are :
+Transmission Control Protocol (TCP) – It is known to provide reliable and error-free communication between end systems. It performs sequencing and segmentation of data. It also has an acknowledgement feature and controls the flow of the data through a flow control mechanism. It is a very effective protocol but has a lot of overhead due to such features. Increased overhead leads to increased costs.
+User Datagram Protocol (UDP) – On the other hand does not provide any such features. It is the go-to protocol if your application does not require reliable transport as it is very cost-effective. Unlike TCP, which is a connection-oriented protocol, UDP is connectionless.
+
+4. Application Layer –
+This layer performs the functions of the top three layers of the OSI model: Application, Presentation and Session Layer. It is responsible for node-to-node communication and controls user-interface specifications. Some of the protocols present in this layer are:
+HTTP and HTTPS – HTTP stands for Hypertext transfer protocol. It is used by the World Wide Web to manage communications between web browsers and servers. HTTPS stands for HTTP-Secure. It is a combination of HTTP with SSL(Secure Socket Layer).
+SSH – SSH stands for Secure Shell. It is a terminal emulations software and can maintain an encrypted connection. It sets up a secure session over a TCP/IP connection.
+NTP –  stands for Network Time Protocol, used to synchronize the clocks on our computer to one standard time source.
+
+Difference between TCP/IP and OSI Model:
+
+TCP/IP	OSI
+TCP refers to Transmission Control Protocol.	OSI refers to Open Systems Interconnection.
+TCP/IP has 4 layers.	OSI has 7 layers.
+TCP/IP is more reliable	OSI is less reliable
+TCP/IP does not have very strict boundaries.	OSI has strict boundaries
+TCP/IP follow a horizontal approach.	OSI follows a vertical approach.
+TCP/IP uses both the session and presentation layer in the application layer itself.	OSI uses different session and presentation layers.
+TCP/IP developed protocols and then model.	OSI developed a model and then a protocol.
+The transport layer in TCP/IP does not provide assurance delivery of packets.	In the OSI model, the transport layer provides assurance of the delivery of packets.
+TCP/IP model network layer only provides connection-less services.	Connectionless and connection-oriented services are provided by the network layer in the OSI model.
+Protocols cannot be replaced easily in TCP/IP model.	While in the OSI model, Protocols are better covered and are easy to replace with the technology change.
+
+FRAMING:
+The physical layer accepts a raw bit stream and attempts to deliver it to the destination. This bit stream is not guaranteed to be error-free. The no. of bits received may be less than, equal to, or more than the no. of bits transmitted, and they may have different values. It is up to the DLL to detect and, if necessary, correct errors.
+The usual approach is to break the bitstream up into discrete frames and compute the checksum for each frame (framing). When a frame arrives at the destination, the checksum is recomputed. If the newly computed checksum is different from the one contained in the frame, the DLL knows that an error has occurred and takes steps to deal with it.
+Frames can be of fixed or variable size.
+1. Fixed-size framing:
+In fixed-size framing, there is no need for defining the boundaries of the frames; Here the size of the frame is fixed and so the frame length acts as a delimiter of the frame. An example of this type of framing is the ATM wide-area network, which uses frames of fixed size called cells.
+
+2. Variable-Size Framing
+In variable-size framing, we need a way to define the end of the frame and the beginning of the next. 2 approaches were used for this purpose:
+
+i. Character-Oriented Protocols
+In a character-oriented protocol, data to be carried are 8-bit characters. To separate one frame from the next, an 8-bit (I-byte) flag is added at the beginning and the end
+of a frame. The flag, composed of protocol-dependent special characters, signals the start or end of a frame. Any pattern used for the flag could also be part of the information. If this happens, the receiver, when it encounters this pattern in the middle of the data, thinks it has reached the end of the frame. To fix this problem, a byte-stuffing strategy was added to character-oriented framing. In byte stuffing (or character stuffing), the data section is stuffed with an extra byte. This byte is usually called the escape character (ESC), which has a predefined bit pattern. Whenever the receiver encounters the ESC character, it removes it from the data section and treats the next character as data, not a delimiting flag.
+
+ii. Bit-Oriented Protocols
+In a bit-oriented protocol, the data section of a frame is a sequence of bits to be interpreted by the upper layer as text, graphics, audio, video, and so on. Most protocols use a special 8-bit pattern flag 01111110 as the delimiter to define the beginning and the end of the frame. Bit stuffing is the process of adding one extra 0 whenever five consecutive 1s follow a 0 in the data so that the receiver does not mistake the pattern 0111110 for a flag.
+
+
+DNS—THE DOMAIN NAME SYSTEM 
+The Domain Name System (DNS) is the phonebook of the Internet. Humans access information online through domain names, like nytimes.com or espn.com. Web browsers interact through Internet Protocol IP) addresses. DNS translates domain names to IP addresses so browsers can load Internet resources. Each device connected to the Internet has a unique IP address which other machines use to find the device. DNS servers eliminate the need for humans to memorize IP addresses such as 192.168.1.1. 
+The 8 steps in a DNS lookup: 
+1. A user types ‘example.com’ into a web browser and the query travels into the Internet and is 
+received by a DNS recursive resolver. 
+2. The resolver then queries a DNS root nameserver (.).
+3. The root server then responds to the resolver with the address of a Top Level Domain (TLD) DNS server (such as .com or .net), which stores the information for its domains.
+4. The resolver then makes a request to the .com TLD. 
+5. The TLD server then responds with the IP address of the domain’s nameserver, example.com. 
+6. Lastly, the recursive resolver sends a query to the domain’s nameserver. 
+7. The IP address for example.com is then returned to the resolver from the nameserver. 
+8. The DNS resolver then responds to the web browser with the IP address of the domain requested 
+initially. 
+
+email - https://www.geeksforgeeks.org/introduction-to-electronic-mail/
+RSA - https://www.educative.io/answers/what-is-the-rsa-algorithm
+DES - https://www.geeksforgeeks.org/double-des-and-triple-des/
+```

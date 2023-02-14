@@ -1,0 +1,70 @@
+---
+lang: "java"
+title: "Longest Increasing Subsequence"
+slug: "longest-increasing-subsequence"
+author: "Swaroop"
+date: "Wednesday, 27 April 2022"
+---
+```java
+// There are two ways to solve this problem using DP
+
+//1. call helper function for possible j value for which currElem < arr[j] or viceverse accd. to the code
+
+class Solution {
+    //Function to find length of longest increasing subsequence.
+    static int[] dp;
+    static int longestSubsequence(int size, int a[]){
+        dp = new int[size+1];
+        Arrays.fill(dp,-1);
+        helper(a,size);
+        int ans = 0;
+        for(int ele : dp) ans = Math.max(ans, ele);
+        return ans;
+    }
+    static int helper(int[] arr, int i){
+        if(i == 0){
+            return 0;
+        }
+        if(dp[i] != -1) return dp[i];
+        int ans = 0;
+        for(int j = 1;j<i;j++){
+            if(arr[i-1] > arr[j-1]){
+                ans = Math.max(ans, helper(arr,j));
+            }
+        }
+       // called to get ans if currElem is not included in the subsequence
+        helper(arr,i-1);
+        return dp[i] = 1 + ans;
+    }
+} 
+
+
+// 2. If we closely observe the problem then we can convert this problem to the Longest Common Subsequence Problem. 
+// Firstly we will create another array of unique elements of the original array and sort it. 
+// Now the longest increasing subsequence of our array must be present as a subsequence in our sorted array. 
+
+class Solution {
+    //Function to find length of longest increasing subsequence.
+    static int longestSubsequence(int n, int arr[]){
+        SortedSet<Integer> hs = new TreeSet<Integer>();
+        // Storing and Sorting unique elements.
+        for (int i = 0; i < n; i++) hs.add(arr[i]);
+        int lis[] = new int[hs.size()];
+        int k = 0;
+        // Storing all the unique values in a sorted manner.
+        for (int val : hs) lis[k++] = val;
+
+        int m = k, i, j;
+        int dp[][] = new int[m + 1][n + 1];
+ 
+        // Finding the Longest Common Subsequence of the two arrays
+        for (i = 1; i < m + 1; i++) {
+            for (j = 1; j < n + 1; j++) {
+                if (arr[j - 1] == lis[i - 1]) dp[i][j] = 1 + dp[i - 1][j - 1];
+                else dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp[m][n];
+    }
+} 
+```

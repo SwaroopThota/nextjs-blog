@@ -1,0 +1,88 @@
+---
+lang: "java"
+title: "DBMS Interview Prep"
+slug: "dbms-interview-prep"
+author: "Swaroop"
+date: "Thursday, 3 March 2022"
+---
+```java
+https://www.interviewbit.com/sql-interview-questions/
+https://www.geeksforgeeks.org/sql-interview-questions/
+
+What is Database?
+A database is an organized collection of data, where data can be stored and retrieved digitally from a remote or local computer system.
+
+What is DBMS?
+DBMS stands for Database Management System. It is a system software responsible for the CRUD operations and management of the database. 
+It ensures that our data is consistent, organized, and easily accessible by serving as an interface between the database and its end-users.
+
+What is RDBMS? How is it different from DBMS?
+RDBMS stands for Relational Database Management System. The key difference here, compared to DBMS, is that RDBMS stores data in the form of a collection of tables, 
+and relations can be defined between the common fields of these tables. Most modern DBMSs like MySQL, Microsoft SQL Server, and Oracle are based on RDBMS.
+
+What is SQL?
+SQL stands for Structured Query Language. It is the standard language for relational database management systems. SQL lets us store, manipulate and retrieve data from databases.
+
+What is a Primary Key?
+The PRIMARY KEY constraint uniquely identifies each row in a table. It must contain UNIQUE values and has an implicit NOT NULL constraint.
+A table in SQL is strictly restricted to having one and only one primary key, which is comprised of single or multiple fields (columns).
+
+What is a Foreign Key?
+A FOREIGN KEY comprises of single or collection of fields in a table that essentially refers to the PRIMARY KEY in another table. 
+Foreign key constraint ensures referential integrity in the relation between two tables.
+
+What is a Join? List its different types.
+The SQL Join clause is used to combine records (rows) from two or more tables in a SQL database based on a related column between the two. 
+There are four different types of JOINs in SQL:
+INNER JOIN: Retrieves records that have matching values in both tables involved in the join. This is the widely used join for queries.
+LEFT JOIN: Retrieves all the records/rows from the left and the matched records/rows from the right table.
+RIGHT JOIN: Retrieves all the records/rows from the right and the matched records/rows from the left table.
+OUTER JOIN: Retrieves all the records where there is a match in either the left or right table.
+
+What are Entities and Relationships?
+Entity: An entity can be a real-world object,  that can be easily identifiable. Each entity has some associated properties that provide it with an identity.
+For Eg, in a college database, students, professors, and departments can be referred to as entities.
+Relationships: Relations or links between entities that have something to do with each other.
+For Eg- The employee's table in a company's database can be associated with the salary table in the same database.
+
+What is an Alias in SQL?
+An alias is a feature of SQL. It is a temporary name assigned to the table or table column for the purpose of a particular SQL query.
+
+What is a View?
+A view in SQL is a virtual table based on the result-set of an SQL statement. A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database.
+
+What is Normalization?
+Normalization represents the way of organizing structured data in the database efficiently. It includes the creation of tables, establishing relationships between them, and defining rules for those relationships. Inconsistency and redundancy can be kept in check based on these rules, hence, adding flexibility to the database.
+
+What are ACID properties?
+ACID stands for Atomicity, Consistency, Isolation, Durability.
+They are database transaction properties which are used for guaranteeing data validity in case of errors and failures.
+Atomicity: we mean that either the entire transaction takes place at once or doesn’t happen at all.
+Consistency: This ensures that updates made to the database are valid and follow rules and restrictions.
+Isolation:  ensures that multiple transactions can occur concurrently without leading to the inconsistency of the database state.
+Durability: This property ensures that the committed transactions are stored permanently in the database.
+
+What are the advantages of DBMS over traditional file-based systems? 
+1. Data redundancy and inconsistency 
+2. Difficulty in accessing data 
+3. Data isolation – multiple files and formats 
+4. Security problems 
+
+What are a super, primary, candidate, and foreign keys? 
+A super key is a set of attributes of a relation schema upon which all attributes of the schema are functionally dependent. No two rows can have the same value of super key attributes. 
+A Candidate key is a minimal superkey, i.e., no proper subset of Candidate key attributes can be a superkey. 
+A Primary Key is one of the candidate keys. There cannot be more than one primary key in a table.
+A Foreign key is a field (or collection of fields) in one table that uniquely identifies a row of another table. 
+
+Types of SQL Commands
+There are five types of SQL commands: DDL, DML, DCL, TCL, DQL
+1. Data Definition Language (DDL) - changes the structure of the table like creating a table, deleting a table, altering a table, etc.
+Eg: CREATE, ALTER, DROP & TRUNCATE
+2. Data Manipulation Language(DML) - commands are used to modify the database. It is responsible for all forms of changes in the database.
+Eg: INSERT, UPDATE, DELETE
+3. Data Control Language(DCL) - commands are used to grant and take back authority from any database user.
+Eg: Grant, Revoke
+4. Data Query Language(DQL) - is used to fetch the data from the database. It uses only one command: SELECT
+5. Transaction Control Language(TCL) -Transaction Control Language commands are used to manage transactions in the database. These are used to manage the changes made by DML statements.
+Eg: COMMIT, ROLLBACK, SAVEPOINT
+```

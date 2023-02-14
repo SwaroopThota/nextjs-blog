@@ -1,0 +1,49 @@
+---
+lang: "java"
+title: "Printing Longest Common Subsequence"
+slug: "printing-longest-common-subsequence"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+public class Main {
+    static int[][] dp;
+    public static void main (String[] args) throws java.lang.Exception
+	{
+		String a = "abcdrefs";
+		String b = "acdbns";
+		int i=a.length(),j=b.length();
+		dp = new int[i+1][j+1];
+		for(int[] arr : dp)
+			Arrays.fill(arr, -1);
+		helper(a,b,i,j);
+		System.out.println(generateLCS(a, b, i, j));
+	}
+	public static String generateLCS(String a, String b, int i, int j) {
+		StringBuilder s = new StringBuilder();
+		while(i>0 && j>0){
+			if(a.charAt(i-1) == b.charAt(j-1)){
+				s.insert(0, a.charAt(i-1));
+				i--; j--;
+			}else if(dp[i-1][j] > dp[i][j-1]){
+				i--;
+			}else{
+				j--;
+			}
+		}
+		return s.toString();
+	}
+	public static int helper(String a, String b, int i, int j) {
+		if(i==0 || j==0){
+			return 0;
+		}
+		if(dp[i][j] != -1) 
+			return dp[i][j];
+		if(a.charAt(i-1) == b.charAt(j-1)){
+			return dp[i][j] = 1 + helper(a, b, i-1, j-1);
+		}
+		return dp[i][j] = Math.max(helper(a, b, i-1, j) , helper(a, b, i, j-1));
+	}
+
+}
+```

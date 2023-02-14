@@ -1,0 +1,46 @@
+---
+lang: "java"
+title: "Word search in a matrix of characters"
+slug: "word-search-in-a-matrix-of-characters"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+class Solution {
+    static int r,c;
+    public boolean exist(char[][] board, String word) {
+        r=board.length;
+        c=board[0].length;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(word.charAt(0) == board[i][j]){  
+                    //if the first char is matching then we can continue with this i,j
+                    if(helper(board,word,i,j,0)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean helper(char[][] board, String word, int i, int j,int index){
+        if(index == word.length()){ //word is formed or found
+            return true;
+        }
+        if(i<0 || i==r || j<0 || j==c || board[i][j] == '-'){ 
+            //checking if we went out of matrix or visiting the already visited box
+            return false;
+        }
+        if(board[i][j] != word.charAt(index)){ 
+            //if the char is not matching with the word at pos index we need not check further
+            return false;
+        }
+        char ch = board[i][j];
+        board[i][j] = '-'; // marking the box as visited
+        boolean flag = helper(board,word,i,j+1,index+1) || helper(board,word,i,j-1,index+1) ||
+            helper(board,word,i+1,j,index+1) || helper(board,word,i-1,j,index+1);
+        board[i][j] = ch; // backtracking
+        return flag;
+    }
+}
+```

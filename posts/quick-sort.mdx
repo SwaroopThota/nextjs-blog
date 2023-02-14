@@ -1,0 +1,32 @@
+---
+lang: "java"
+title: "Quick sort"
+slug: "quick-sort"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+quickSort(arr,0,arr.length()-1);
+
+// rule: elements on the left side of pivot should less than pivot and elements on the right side of pivot should be more than pivot.
+static void quickSort(int arr[], int low, int high)
+    {
+        if(low>=high){
+            return;
+        }
+        int s = low, e = high,pivot = arr[s + (e-s)/2]; // this implementation works only when we choose mid element as pivot
+        while(s<=e){
+            while(arr[s] < pivot)   s++; // gives index of element which is greater than pivot and which is on the left side of pivot
+            while(arr[e] > pivot)   e--;  // gives index of element which is less than pivot and which is on the right side of pivot
+            if(s <= e){          // here we swap those two elements which violate our rule
+                int temp = arr[s];
+                arr[s] = arr[e];
+                arr[e] = temp;
+                s++;
+                e--;
+            }
+        }
+        quickSort(arr,low,e);  // recursive call on the left side of pivot i.e. (arr, low, e = pivot -1); 
+        quickSort(arr,s,high);  // recursive call on the right side of pivot i.e. (arr , s = pivot +1,high);
+    }
+```

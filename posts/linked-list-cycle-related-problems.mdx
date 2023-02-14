@@ -1,0 +1,37 @@
+---
+lang: "java"
+title: "LinkedList Cycle related problems"
+slug: "linked-list-cycle-related-problems"
+author: "Swaroop"
+date: "Monday, 21 March 2022"
+---
+```java
+// https://www.youtube.com/watch?v=jcZtMh_jov0&list=PLUcsbZa0qzu3yNzzAxgvSgRobdUUJvz7p&index=39&ab_channel=AnujBhaiya
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast) break;
+        }
+        // there is no cycle in list
+        if(fast == null || fast.next == null) return null;
+        ListNode start = head, meet = slow;
+        while(start != meet){
+           // prev = meet;
+            meet = meet.next;
+            start = start.next;
+        }
+       // meet is node where cycle in list starts
+       // we can maintain a prev node to remove cycle in the list
+       // prev.next = null
+        return meet;
+    }
+
+// proof: let l be the length of loop x be start dist, y be slow's dist travelled in a loop
+// dist of fast = 2 * dist of slow
+// x + nl + y = 2(x+ml+y)
+// x + y = (n-m)l
+// x = (n-m)l - y
+```

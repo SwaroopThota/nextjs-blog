@@ -1,0 +1,48 @@
+---
+lang: "java"
+title: "Vertical Order Traversal of a Binary Tree"
+slug: "vertical-order-traversal-of-a-binary-tree"
+author: "Swaroop"
+date: "Monday, 11 April 2022"
+---
+```java
+public class Solution {
+    class Pair{
+        TreeNode root;
+        int hd;
+        Pair(TreeNode root, int hd){
+            this.root = root;
+            this.hd = hd;
+        }
+    }
+    Map<Integer,List<Integer>> map;
+    public int[][] verticalOrderTraversal(TreeNode root) {
+        map = new TreeMap<>();
+        fillMap(root);
+        int[][] ans = new int[map.size()][];
+        int i = 0;
+        for(List<Integer> list : map.values()){
+            ans[i] = new int[list.size()];
+            for(int j=0;j<list.size();j++) ans[i][j] = list.get(j);
+            i++;
+        }
+        return ans;
+    }
+
+    public void fillMap(TreeNode root){
+        if(root == null) return;
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(root,0));
+        while(!q.isEmpty()){
+            Pair cur = q.poll();
+            if(!map.containsKey(cur.hd)){
+                map.put(cur.hd, new ArrayList<Integer>());
+            }
+            map.get(cur.hd).add(cur.root.val);
+            if(cur.root.left != null) q.offer(new Pair(cur.root.left,cur.hd-1));
+            if(cur.root.right != null) q.offer(new Pair(cur.root.right,cur.hd+1));
+        }
+    }
+}
+
+```

@@ -1,0 +1,32 @@
+---
+lang: "java"
+title: "Max Sum Rectangle - 2D Kadane"
+slug: "max-sum-rectangle-2-d-kadane"
+author: "Swaroop"
+date: "Sunday, 5 June 2022"
+---
+```java
+class Solution {
+    
+    int maximumSumRectangle(int R, int C, int M[][]) {
+        
+        int maxSoFar = Integer.MIN_VALUE;
+        // here i & j are used fix the left & right columns
+        for(int i=0;i<C;i++){
+            int[] rowSum = new int[R];
+            for(int j=i;j<C;j++){
+                // pre is used as curSum to perform row-wise 
+                // kadane max subarray sum on rowSum array
+                int pre = 0;
+                for(int k=0;k<R;k++){
+                    rowSum[k] += M[k][j];
+                    pre += rowSum[k];
+                    maxSoFar = Math.max(maxSoFar, pre);
+                    pre = Math.max(pre, 0);
+                }
+            }
+        }
+        return maxSoFar;
+    }
+}
+```

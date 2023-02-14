@@ -1,0 +1,33 @@
+---
+lang: "java"
+title: "Construct Binary Tree from Inorder and Postorder Traversal"
+slug: "construct-binary-tree-from-inorder-and-postorder-traversal"
+author: "Swaroop"
+date: "Saturday, 2 April 2022"
+---
+```java
+// same as Construct Binary Tree from Preorder and Inorder Traversal but we traverse postorder from backside and next elem after root will be right node in postorder
+class Solution {
+    int postorderIndex;
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        postorderIndex =  postorder.length-1;
+        return helper(postorder, inorder, 0, postorder.length-1);
+    }
+    TreeNode helper(int[] post, int[] in, int s,int e){
+        if(s > e) return null;
+        int inorderIndex = find(in,s,e,post[postorderIndex]);
+        TreeNode root = new TreeNode(post[postorderIndex]);
+        postorderIndex--;
+        root.right = helper(post,in,inorderIndex+1,e);
+        root.left = helper(post,in,s,inorderIndex-1);
+        return root;
+    }
+    int find(int[] arr, int s, int e, int key){
+        int i=s;
+        for(;i<=e;i++){
+            if(arr[i] == key) break;
+        }
+        return i;
+    }
+}
+```

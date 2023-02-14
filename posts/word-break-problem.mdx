@@ -1,0 +1,57 @@
+---
+lang: "java"
+title: "Word Break Problem"
+slug: "word-break-problem"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//gfg prctice - https://practice.geeksforgeeks.org/problems/word-break-part-23249/1#
+class Solution{
+    static List<String> ans;
+    static List<String> wordBreak(int n, List<String> dict, String s)
+    {
+        // code here
+        ans = new ArrayList<>();
+        helper(s,dict,"");
+        return ans;
+    }
+    static void helper(String s,List<String> dict,String f){
+        if(s.length() == 0){
+            ans.add(f.substring(1));
+            return;
+        }
+        for(String word : dict){
+            if(s.startsWith(word)){
+                helper(s.substring(word.length()),dict,f+" "+word);
+            }
+        }
+    }
+}
+
+
+class Solution{
+    static List<String> ans;
+    static List<String> wordBreak(int n, List<String> dict, String s)
+    {
+        ans = new ArrayList<>();
+        helper(s,0,1,dict,"");
+        return ans;
+    }
+    static void helper(String s,int i,int j,int n,List<String> dict,String f){
+          if(s.length()==0){
+                ans.add(f.substring(1));  //extra " " at the beginning of f. Eg: " cats and dog" , " cat sand dog".
+                return;
+        }
+        if(j == s.length()+1){
+               return;
+        }
+        //if i,j forms a valid word then we add it to the f with a space at the beginning and next func called upon the remaining string
+        if(dict.contains(s.substring(i,j))){  
+            helper(s.substring(j),0,1,dict,f +" "+s.substring(i,j));
+        }
+        // this calls func on the next value of j
+        helper(s,i,j+1,dict,f); 
+    }
+}
+```

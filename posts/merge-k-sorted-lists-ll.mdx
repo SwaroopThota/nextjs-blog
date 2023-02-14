@@ -1,0 +1,27 @@
+---
+lang: "java"
+title: "Merge K sorted Lists(LL)"
+slug: "merge-k-sorted-lists-ll"
+author: "Swaroop"
+date: "Wednesday, 30 March 2022"
+---
+```java
+public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length == 0) return null;
+        int minNodeIndex = 0, nullCnt = 0;
+        for(int i=0;i<lists.length;i++){
+            if(lists[i] == null){
+                nullCnt++;
+                continue;
+            }
+            if(lists[minNodeIndex] == null || lists[minNodeIndex].val > lists[i].val){
+                minNodeIndex = i;
+            }
+        }
+        if(nullCnt == lists.length) return null;
+        ListNode head = lists[minNodeIndex];
+        lists[minNodeIndex] = lists[minNodeIndex].next;
+        head.next = mergeKLists(lists);
+        return head;
+    }
+```

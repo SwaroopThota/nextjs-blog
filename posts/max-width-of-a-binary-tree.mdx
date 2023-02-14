@@ -1,0 +1,25 @@
+---
+lang: "java"
+title: "Max Width of a Binary Tree"
+slug: "max-width-of-a-binary-tree"
+author: "Swaroop"
+date: "Friday, 4 March 2022"
+---
+```java
+public static int getMaxWidth(TreeNode root) {
+        if(root == null) return 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        int maxWidth = -1;
+        q.add(root);
+        while(!q.isEmpty()){
+            int size = q.size();
+            maxWidth = Math.max(size,maxWidth);
+            for(int i=0;i<size;i++){
+                TreeNode curr = q.remove();
+                if(curr.left != null) q.add(curr.left);
+                if(curr.right != null) q.add(curr.right);
+            }
+        }
+        return maxWidth;
+}
+```

@@ -1,18 +1,22 @@
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
+import comfortaa from '@/utils/NextFont'
 import './globals.css'
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode
+	children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
-      <body>{children}</body>
-    </html>
-  )
+	return (
+		<html lang='en' className={comfortaa.variable}>
+			<body>
+				<Navbar />
+				<div className='container text-sm p-3 min-h-homepage'>
+					{children}
+				</div>
+				<Footer />
+			</body>
+		</html>
+	)
 }

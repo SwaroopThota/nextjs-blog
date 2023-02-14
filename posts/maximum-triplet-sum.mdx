@@ -1,0 +1,33 @@
+---
+lang: "java"
+title: "Maximum Triplet Sum"
+slug: "maximum-triplet-sum"
+author: "Swaroop"
+date: "Monday, 30 May 2022"
+---
+```java
+public class Solution {
+    public int solve(int[] A) {
+        int maxSum = 0, n = A.length;
+        // for maintaining next greater element
+        int[] nextMax = new int[n];
+        nextMax[n - 1] = A[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            nextMax[i] = max(nextMax[i + 1], A[i]);
+        }
+        // for getting prev greater element
+        TreeSet<Integer> prevMaxValue = new TreeSet<>();
+        prevMaxValue.add(Integer.MIN_VALUE);
+        prevMaxValue.add(A[0]);
+        for (int i = 1; i < n - 1; i++) {
+            if (A[i] < nextMax[i + 1]) {
+                // to get max sum we need max elements from left and right side of cur elem
+                maxSum = max(maxSum, prevMaxValue.lower(A[i]) + A[i] + nextMax[i + 1]);
+                prevMaxValue.add(A[i]);
+            }
+        }
+        return maxSum;
+    }
+}
+
+```

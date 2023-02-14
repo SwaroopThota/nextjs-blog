@@ -1,0 +1,129 @@
+---
+lang: "java"
+title: "Left, Right, Bottom and Top View of a Binary Tree"
+slug: "left-right-bottom-and-top-view-of-a-binary-tree"
+author: "Swaroop"
+date: "Thursday, 3 March 2022"
+---
+```java
+// Left View and Right view
+//using pre order traversal
+public class Solution{
+    static ArrayList<Integer> ans;
+    public static ArrayList<Integer> getLeftView(TreeNode<Integer> root) 
+    {
+        ans = new ArrayList<>();
+        int level = 1;
+        helper(root,level);
+        return ans;
+    }
+    public static void helper(TreeNode<Integer> root, int level){ 
+        // or we can maintain a variable maxlevel to store the max level
+        // if currLevel > maxlevel add that to ans
+        if(root == null) return;                                                     
+        if(level > ans.size()){
+            ans.add(root.data);
+        }
+       //left view
+        helper(root.left,level+1);
+        helper(root.right,level+1);
+        //right view
+        helper(root.right,level+1);
+        helper(root.left,level+1);
+    }
+}
+
+
+//using queue
+public class Solution 
+{
+    public static ArrayList<Integer> getLeftView(TreeNode<Integer> root) 
+    {
+        
+        //    For storing the left view.
+        ArrayList<Integer> leftView =new ArrayList<Integer>();
+
+        if (root == null) return leftView;
+
+        //    Queue for doing level order traversal.
+        Queue<TreeNode<Integer>> level=new LinkedList<TreeNode<Integer>>();
+
+        //    Push the root in the queue.
+        level.add(root);
+        int leftMostNode=-1;
+
+        while (level.isEmpty() == false) {
+            
+            //    Get the size of the current level.
+            int queueSize = level.size();
+
+            //    Traverse all nodes of the current level.
+            for (int i = 0; i < queueSize; i++) {
+                //    Pop the node from the front of the queue.
+                TreeNode<Integer> curr = level.remove();
+
+                //    Add the left most node of the current level to the left view.
+               //left view
+                if (i == 0)  leftView.add(curr.data);
+                //right view
+               if (i == queueSize-1) rightView.add(curr.data);
+
+                //    Push the left child into the queue.
+                if (curr.left != null) level.add(curr.left);
+
+                //    Push the right child into the queue.
+                if (curr.right != null) level.add(curr.right);
+            }
+        }
+        return leftView;
+    }
+}
+
+
+// Bottom view and Top view using queue
+
+import java.util.*;
+
+public class Solution {
+    public class Pair {
+        BinaryTreeNode node;
+        int hd;
+        Pair(BinaryTreeNode node, int hd){
+            this.node = node;
+            this.hd = hd;
+        }
+    }
+    static ArrayList<Integer> ans;
+    static Map<Integer,Integer> map;
+    public static ArrayList<Integer> bottomView(BinaryTreeNode root) {
+         // Write your code here.
+        map = new TreeMap<>();
+        ans = new ArrayList<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Solution().new Pair(root,0));
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i=0;i<size;i++){
+                Pair curr = q.remove();
+                if(curr.node.left != null){
+                    q.add(new Solution().new Pair(curr.node.left,curr.hd-1));
+                }
+                if(curr.node.right != null){
+                    q.add(new Solution().new Pair(curr.node.right,curr.hd+1));
+                }
+                //Bottom view
+                map.put(curr.hd,curr.node.val);
+                //Top view
+                if(!map.containsKey(curr.hd)){
+                	map.put(curr.hd,curr.node.val);
+                }
+            }
+        }
+        for(int val : map.values()){
+            ans.add(val);
+        }
+        return ans;
+    }
+}
+
+```

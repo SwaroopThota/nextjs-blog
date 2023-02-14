@@ -1,0 +1,40 @@
+---
+lang: "java"
+title: "No. of paths to reach to the end of matrix"
+slug: "no-of-paths-to-reach-to-the-end-of-matrix"
+author: "Swaroop"
+date: "Wednesday, 2 March 2022"
+---
+```java
+//No. of paths to reach to the end of matrix if we can move only in right and down direction
+class Solution
+{
+    static int[][] dp;
+    //Function to find total number of unique paths.
+    public static int NumberOfPath(int a, int b) 
+    {
+        //Your code here
+        dp = new int[a+1][b+1];
+        for(int[] i : dp)
+            Arrays.fill(i,-1);
+        // for(int i=1;i<=a;i++){
+        //     for(int j=1;j<=b;j++){
+        //         if(i==1 || b==1){
+        //             dp[i][j] = 1;
+        //         }else{
+        //             dp[i][j] = dp[i-1][j] + dp[i][j-1];
+        //         }
+        //     }
+        // }
+        return helper(a,b);
+    }
+    public static int helper(int a,int b){
+        if(a==1 || b==1){  //=>we are on the boundary of matrix i.e. right most col and bottom most col, here we have only one choice to go either only down or only right resp
+            return 1;
+        }
+        if(dp[a][b] != -1) 
+            return dp[a][b];
+        return dp[a][b] = helper(a-1,b) + helper(a,b-1); //=> we calc no. of ways if we go down + no. of ways if we go right
+    }
+}
+```

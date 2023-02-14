@@ -1,0 +1,43 @@
+---
+lang: "java"
+title: "Count Total Set Bits from 1 to N"
+slug: "count-total-set-bits-from-1-to-n"
+author: "Swaroop"
+date: "Saturday, 28 May 2022"
+---
+```java
+// 0 - 0000
+// 1 - 0001
+// 2 - 0010
+// 3 - 0011
+// 4 - 0100
+// 5 - 0101
+// 6 - 0110
+// 7 - 0111
+// 8 - 1000
+// 9 - 1001
+// 10 - 1010
+
+// => for every 2^(i+1) numbers the ith bit will be set for 2^i times. Eg: for every 2 nums 1st bit will be set for 1 time, for every 4 nums 2nd bit will be set for 2times
+// 0 - 000
+// 1 - 001
+// 2 - 010
+// 3 - 011
+// here 2^1 th bit is set for 2 times and only in the second half
+
+public class Solution {
+    static int mod = (int) 1e9+7;
+    public static int solve(int A) {
+        long cnt = 0;
+        for(int i=0;i<31;i++){
+            int num = 1<<i, next = num<<1;
+            // for every 'next' no.of numbers the ith will be set for 'num' no. of times in 0 to A
+            cnt = (cnt + num*(A/next))%mod;
+            // for remaining nums from 0 to A, the ith will be set only in the second half of 'next' no. of numbers
+            cnt = (cnt + Math.max(0, (A%next)-num+1))%mod;
+        }
+        return (int) cnt;
+    }
+}
+
+```

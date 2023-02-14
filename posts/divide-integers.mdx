@@ -1,0 +1,33 @@
+---
+lang: "java"
+title: "Divide Integers"
+slug: "divide-integers"
+author: "Swaroop"
+date: "Friday, 29 July 2022"
+---
+```java
+// Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator. Return the quotient after dividing dividend by divisor. Note: return INT_MAX if overflows
+// https://leetcode.com/problems/divide-two-integers/
+
+public class Solution {
+    public int divide(int A, int B) {
+        // int_min / -1 gives overflow so we return int_max
+        if(A == Integer.MIN_VALUE && B == -1) return Integer.MAX_VALUE;
+        int sign = (A > 0) ^ (B > 0) ? -1: 1;
+        // for handling division with int_min
+        long dvd = Math.abs((long)A), dvs = Math.abs((long)B);
+        int quotient = 0;
+        while(dvd >= dvs){
+            long temp = dvs, tempQoutient = 1;
+            while((temp << 1) <= dvd){
+                temp <<= 1;
+                tempQoutient <<= 1;
+            }
+            dvd -= temp;
+            quotient += tempQoutient;
+        }
+        return sign * quotient;
+    }
+}
+
+```
