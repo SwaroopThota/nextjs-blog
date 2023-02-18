@@ -19,32 +19,34 @@ const Page = ({ params }: IProps) => {
 	const postTitles = getPostTitles(pageNo)
 	return (
 		<>
-			<div className='flex w-full justify-between items-center'>
-				<p className='text-2xl'>All Posts</p>
-				<div>
-					<Link
-						href={`/posts/${pageNo - 1}`}
-						className={`p-2 m-2 bg-slate-400 rounded-md ${
-							pageNo <= 1 ? 'hidden' : ''
-						}`}
-						type='button'
-						aria-disabled
-					>
-						&lt;
-					</Link>
-					<Link
-						href={`/posts/${pageNo + 1}`}
-						className={`p-2 m-2 bg-slate-400 rounded-md ${
-							pageNo >= totalPages ? 'hidden' : ''
-						}`}
-						type='button'
-					>
-						&gt;
-					</Link>
-				</div>
+			<div className='flex w-full items-center justify-between'>
+				<Link
+					href={`/posts/${pageNo > 1 ? pageNo - 1 : pageNo + '/#'}`}
+					className={`p-2 bg-gray-100 shadow-inner rounded-md ${
+						pageNo <= 1 && 'opacity-30'
+					}`}
+					type='button'
+					aria-disabled
+				>
+					&lt;
+				</Link>
+				<p className='text-2xl justify-self-center text-center'>
+					All Posts
+				</p>
+				<Link
+					href={`/posts/${
+						pageNo < totalPages ? pageNo + 1 : pageNo + '/#'
+					}`}
+					className={`p-2 bg-gray-100 shadow-inner rounded-md ${
+						pageNo >= totalPages && 'opacity-30'
+					}`}
+					type='button'
+				>
+					&gt;
+				</Link>
 			</div>
 			{postTitles.map((postTitle) => {
-				return <PostTitle postTitle={postTitle} />
+				return <PostTitle postTitle={postTitle} key={postTitle.slug} />
 			})}
 		</>
 	)

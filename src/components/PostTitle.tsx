@@ -13,7 +13,7 @@ const PostTitle = ({ postTitle }: IProps) => {
 			className='block my-2 py-5 px-2 hover:bg-slate-100 rounded-md hover:shadow focus-within:shadow focus:bg-slate-100'
 		>
 			<p className='text-base'>{postTitle.title}</p>
-			<p className='text-sm text-gray-400'>
+			<p className='text-xs text-gray-400 font-medium'>
 				<>
 					Posted By {postTitle.author} on {postTitle.date}
 				</>
