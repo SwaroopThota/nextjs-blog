@@ -1,4 +1,4 @@
-import { Comfortaa } from '@next/font/google'
+import { Comfortaa } from 'next/font/google'
 
 const comfortaa = Comfortaa({
 	subsets: ['latin'],
